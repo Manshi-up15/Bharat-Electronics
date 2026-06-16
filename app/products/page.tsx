@@ -1,0 +1,47 @@
+import Link from "next/link";
+
+const products = [
+  { id: "1", name: "Premium Electrical Wire", category: "Electrical Wires", description: "Durable copper wire for residential and commercial use.", availability: "In Stock" },
+  { id: "2", name: "Smart LED Bulb", category: "LED Bulbs", description: "Energy-efficient LED bulb with long life.", availability: "In Stock" },
+  { id: "3", name: "Modular Switch Board", category: "Switch Boards", description: "Modern switch board for homes and offices.", availability: "Out of Stock" }
+];
+
+export default function ProductsPage() {
+  return (
+    <main className="mx-auto max-w-7xl px-6 py-10">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Products</p>
+          <h1 className="text-4xl font-semibold tracking-tight text-slate-900">Browse our collection</h1>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <button className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">All</button>
+          <button className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700">In Stock</button>
+          <button className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700">Out of Stock</button>
+        </div>
+      </div>
+
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {products.map((product) => (
+          <article key={product.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
+            <div className="h-60 bg-slate-100" />
+            <div className="space-y-4 p-6">
+              <div className="flex items-center justify-between text-sm uppercase tracking-[0.3em] text-amber-500">
+                <span>{product.category}</span>
+                <span>{product.availability}</span>
+              </div>
+              <div>
+                <h2 className="text-2xl font-semibold text-slate-900">{product.name}</h2>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{product.description}</p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Link href={`/products/${product.id}`} className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950">View Details</Link>
+                <a href="tel:9119789307" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900">Contact for Price</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </main>
+  );
+}
