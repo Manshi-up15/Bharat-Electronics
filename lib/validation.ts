@@ -18,9 +18,15 @@ export const categorySchema = z.object({
   slug: z.string().min(1)
 });
 
+export const galleryItemSchema = z.object({
+  imageUrl: z.string().url(),
+  publicId: z.string().min(1),
+  title: z.string().max(200).optional()
+});
+
 export const settingsSchema = z.object({
   siteTitle: z.string().optional(),
   siteDescription: z.string().optional()
 });
 
-export default { loginSchema, productSchema, categorySchema, settingsSchema };
+export default { loginSchema, productSchema, categorySchema, galleryItemSchema, settingsSchema };

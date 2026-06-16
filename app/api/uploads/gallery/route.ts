@@ -2,16 +2,27 @@ import { NextResponse } from "next/server";
 import cloudinary, { uploadDataUri } from "../../../../lib/cloudinary";
 import { createGalleryItem } from "../../../../lib/models";
 import { verifyRequestAuth } from "../../../../lib/auth";
+import { verifyCsrfToken } from "../../../../lib/csrf";
+import { sanitizeInput } from "../../../../lib/sanitize";
 
 export async function POST(request: Request) {
   const auth = await verifyRequestAuth(request);
   if (!auth || auth.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const cookie = request.headers.get("cookie") || "";
+  const match = cookie.match(/csrfToken=([^;]+)/);
+  const cookieToken = match ? match[1] : null;
+  const headerToken = request.headers.get("x-csrf-token") || undefined;
+  if (!verifyCsrfToken(cookieToken || undefined, headerToken)) {
+    return NextResponse.json({ error: "CSRF verification failed" }, { status: 403 });
+  }
+
   const form = await request.formData();
   const files = form.getAll("file") as any[];
   const folder = (form.get("folder") as string) || "bharat-electronics/gallery";
-  const title = (form.get("title") as string) || "";
+  const title = sanitizeInput((form.get("title") as string) || "");
 
   if (!files || files.length === 0) {
     return NextResponse.json({ error: "No files provided" }, { status: 400 });
