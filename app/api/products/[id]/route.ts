@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getProductById, updateProduct, deleteProduct } from "../../../../lib/models";
 import { verifyRequestAuth } from "../../../../lib/auth";
+import { productSchema } from "../../../../lib/validation";
+import { sanitizeObject } from "../../../../lib/sanitize";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const product = await getProductById(params.id);
@@ -16,7 +18,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body = await request.json();
-  const updated = await updateProduct(params.id, body);
+  const cleaned = sanitizeObject(body);
+  const parsed = productSchema.partial().safeParse(cleaned);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid product data" }, { status: 400 });
+  }
+  const updated = await updateProduct(params.id, parsed.data as any);
   if (!updated) {
     return NextResponse.json({ error: "Product not found." }, { status: 404 });
   }

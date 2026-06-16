@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import cloudinary from "../../../../lib/cloudinary";
-import { deleteGalleryItem } from "../../../../lib/models";
+import cloudinary, { destroy } from "../../../../lib/cloudinary";
+import { deleteGalleryItem, removeImageFromProducts } from "../../../../lib/models";
 import { verifyRequestAuth } from "../../../../lib/auth";
 
 export async function DELETE(request: Request) {
@@ -15,10 +15,11 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const result = await cloudinary.uploader.destroy(publicId);
+    const result = await destroy(publicId);
     if (galleryId) {
       await deleteGalleryItem(galleryId);
     }
+    await removeImageFromProducts(publicId);
     return NextResponse.json({ result });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || String(err) }, { status: 500 });

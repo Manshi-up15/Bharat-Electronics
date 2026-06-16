@@ -181,6 +181,12 @@ export async function deleteGalleryItem(id: string) {
   return db.collection<GalleryItem>("gallery").deleteOne({ _id: new ObjectId(id) });
 }
 
+export async function removeImageFromProducts(publicId: string) {
+  const db = (await clientPromise).db();
+  const result = await db.collection<Product>("products").updateMany({}, { $pull: { images: { publicId } } });
+  return result;
+}
+
 export async function getSettings() {
   const db = (await clientPromise).db();
   const settings = await db.collection<Settings>("settings").findOne({});

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getProducts, createProduct } from "../../../lib/models";
 import { verifyRequestAuth } from "../../../lib/auth";
 import { generateCsrfToken, verifyCsrfToken } from "../../../lib/csrf";
+import { productSchema } from "../../../lib/validation";
+import { sanitizeObject } from "../../../lib/sanitize";
 
 export async function GET() {
   const products = await getProducts();
@@ -21,7 +23,12 @@ export async function POST(request: Request) {
   if (!verifyCsrfToken(cookieToken || undefined, headerToken || undefined)) {
     return NextResponse.json({ error: "CSRF verification failed" }, { status: 403 });
   }
-  const body = await request.json();
-  const product = await createProduct(body);
+  const bodyRaw = await request.json();
+  const body = sanitizeObject(bodyRaw);
+  const parsed = productSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid product data" }, { status: 400 });
+  }
+  const product = await createProduct(parsed.data as any);
   return NextResponse.json(product);
 }
