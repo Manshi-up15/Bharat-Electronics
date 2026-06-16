@@ -1,8 +1,9 @@
-import { getGalleryItems } from "../../lib/models";
+import { getGalleryItems, getSettings } from "../../lib/models";
 import type { GalleryItem } from "../../lib/types";
 
 export default async function GalleryPage() {
-  const items = await getGalleryItems();
+  const [items, settings] = await Promise.all([getGalleryItems(), getSettings()]);
+  const businessName = settings?.businessName || "Bharat Electronics";
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
@@ -11,7 +12,7 @@ export default async function GalleryPage() {
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Gallery</p>
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Real shop & product photos</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-600">Explore installations, product displays, and real work examples from Bharat Electronics.</p>
+            <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-600">Explore installations, product displays, and real work examples from {businessName}.</p>
           </div>
         </div>
 

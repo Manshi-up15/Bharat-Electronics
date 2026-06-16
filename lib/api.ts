@@ -93,13 +93,16 @@ export async function deleteGalleryItem(id: string) {
 }
 
 export async function getSettings(): Promise<Settings | null> {
-  return jsonFetch<Settings>("/api/settings");
+  return jsonFetch<Settings>("/api/settingsPublic");
 }
 
-export async function saveSettings(input: Partial<Settings>) {
-  return jsonFetch<Settings>("/api/settings", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+export async function saveSettings(input: Partial<Settings>, csrfToken?: string) {
+  return jsonFetch<Settings>("/api/settingsAdmin", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...(csrfToken ? { "x-csrf-token": csrfToken } : {})
+    },
     body: JSON.stringify(input)
   });
 }

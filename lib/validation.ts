@@ -25,8 +25,17 @@ export const galleryItemSchema = z.object({
 });
 
 export const settingsSchema = z.object({
-  siteTitle: z.string().optional(),
-  siteDescription: z.string().optional()
+  businessName: z.string().min(1).optional(),
+  ownerName: z.string().min(1).optional(),
+  phone: z.string().min(1).optional(),
+  whatsappNumber: z.string().min(1).optional(),
+  email: z.string().email().optional(),
+  instagram: z.string().min(1).optional(),
+  heroTitle: z.string().min(1).optional(),
+  heroSubtitle: z.string().optional(),
+  aboutContent: z.string().optional(),
+  address: z.string().optional(),
+  googleMapsUrl: z.string().url().optional()
 });
 
 export default { loginSchema, productSchema, categorySchema, galleryItemSchema, settingsSchema };

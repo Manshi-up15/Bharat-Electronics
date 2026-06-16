@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getSettings } from "../../../lib/models";
 
 interface Product {
   id: string;
@@ -18,7 +19,12 @@ const product: Product = {
   images: ["/placeholder-product.jpg", "/placeholder-product.jpg"]
 };
 
-export default function ProductDetailsPage() {
+export default async function ProductDetailsPage() {
+  const settings = await getSettings();
+  const phone = settings?.phone || "9119789307";
+  const email = settings?.email || "amanmzm251316@gmail.com";
+  const instagram = settings?.instagram || "@aman_saini____0001";
+
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
       <div className="grid gap-10 lg:grid-cols-[0.95fr_0.5fr]">
@@ -36,7 +42,7 @@ export default function ProductDetailsPage() {
             <p className="mt-6 text-base leading-8 text-slate-600">{product.description}</p>
             <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
               <span className="rounded-full bg-emerald-100 px-3 py-2 text-emerald-800">{product.availability}</span>
-              <a href="tel:9119789307" className="rounded-full bg-slate-900 px-3 py-2 text-white">Call for details</a>
+              <a href={`tel:${phone}`} className="rounded-full bg-slate-900 px-3 py-2 text-white">Call for details</a>
             </div>
           </div>
         </div>
@@ -45,9 +51,9 @@ export default function ProductDetailsPage() {
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-xl font-semibold text-slate-900">Contact Information</h2>
             <div className="mt-4 space-y-3 text-sm text-slate-600">
-              <p><strong>Phone:</strong> 9119789307</p>
-              <p><strong>Email:</strong> amanmzm251316@gmail.com</p>
-              <p><strong>Instagram:</strong> @aman_saini____0001</p>
+              <p><strong>Phone:</strong> {phone}</p>
+              <p><strong>Email:</strong> {email}</p>
+              <p><strong>Instagram:</strong> {instagram}</p>
             </div>
           </div>
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">

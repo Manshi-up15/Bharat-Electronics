@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import cloudinary, { uploadDataUri } from "../../../../lib/cloudinary";
+import { uploadDataUri } from "../../../../lib/cloudinary";
 import { createGalleryItem } from "../../../../lib/models";
 import { verifyRequestAuth } from "../../../../lib/auth";
 import { verifyCsrfToken } from "../../../../lib/csrf";

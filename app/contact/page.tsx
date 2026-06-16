@@ -1,9 +1,16 @@
-export default function ContactPage() {
+import { getSettings } from "../../lib/models";
+
+export default async function ContactPage() {
+  const settings = await getSettings();
+  const phone = settings?.phone || "9119789307";
+  const email = settings?.email || "amanmzm251316@gmail.com";
+  const instagram = settings?.instagram || "@aman_saini____0001";
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
       <div className="space-y-6">
         <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Contact</p>
-        <h1 className="text-4xl font-semibold tracking-tight text-slate-900">Contact Bharat Electronics</h1>
+        <h1 className="text-4xl font-semibold tracking-tight text-slate-900">Contact {settings?.businessName || "Bharat Electronics"}</h1>
         <p className="max-w-3xl text-sm leading-7 text-slate-600">Send us a message with your product inquiry and we will respond promptly.</p>
       </div>
       <div className="mt-10 grid gap-10 lg:grid-cols-[0.9fr_0.7fr]">
@@ -15,12 +22,12 @@ export default function ContactPage() {
             </label>
             <label className="space-y-2">
               <span className="text-sm font-semibold text-slate-700">Phone</span>
-              <input type="tel" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" placeholder="9119789307" />
+              <input type="tel" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" placeholder={phone} />
             </label>
           </div>
           <label className="space-y-2">
             <span className="text-sm font-semibold text-slate-700">Email</span>
-            <input type="email" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" placeholder="your@email.com" />
+            <input type="email" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" placeholder={email} />
           </label>
           <label className="space-y-2">
             <span className="text-sm font-semibold text-slate-700">Message</span>
@@ -37,15 +44,15 @@ export default function ContactPage() {
           <div className="space-y-4 text-sm text-slate-600">
             <div>
               <p className="font-semibold text-slate-900">Phone</p>
-              <p>9119789307</p>
+              <p>{phone}</p>
             </div>
             <div>
               <p className="font-semibold text-slate-900">Email</p>
-              <p>amanmzm251316@gmail.com</p>
+              <p>{email}</p>
             </div>
             <div>
               <p className="font-semibold text-slate-900">Instagram</p>
-              <p>@aman_saini____0001</p>
+              <p>{instagram}</p>
             </div>
           </div>
         </div>

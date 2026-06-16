@@ -50,7 +50,10 @@ export interface Settings {
   phone?: string;
   email?: string;
   instagram?: string;
-  aboutText?: string;
+  aboutContent?: string;
   heroTitle?: string;
   heroSubtitle?: string;
+  whatsappNumber?: string;
+  address?: string;
+  googleMapsUrl?: string;
 }

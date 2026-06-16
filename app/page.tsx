@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getSettings } from "../lib/models";
 
 const categories = [
   { name: "Electrical Wires", href: "/categories/wires" },
@@ -16,18 +17,28 @@ const featuredProducts = [
   { id: "3", name: "Modern Switch Board", category: "Switch Boards", image: "/placeholder-product.jpg" }
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const settings = await getSettings();
+  const businessName = settings?.businessName || "Bharat Electronics";
+  const heroTitle = settings?.heroTitle || "Complete Electrical & Electronics Solutions Under One Roof";
+  const heroSubtitle = settings?.heroSubtitle || "Browse products, explore categories, and contact us instantly from a fast mobile-friendly store.";
+  const phone = settings?.phone || "9119789307";
+  const email = settings?.email || "amanmzm251316@gmail.com";
+  const instagram = settings?.instagram || "@aman_saini____0001";
+  const address = settings?.address || "Local shop in your area";
+  const contactLink = settings?.whatsappNumber ? `https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}` : `tel:${phone}`;
+
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
       <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div className="space-y-6">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Bharat Electronics</p>
-          <h1 className="text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">Complete Electrical &amp; Electronics Solutions Under One Roof</h1>
-          <p className="max-w-2xl text-lg leading-8 text-slate-600">Browse products, explore categories, and contact us instantly from a fast mobile-friendly store.</p>
+          <p className="text-sm uppercase tracking-[0.3em] text-amber-500">{businessName}</p>
+          <h1 className="text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">{heroTitle}</h1>
+          <p className="max-w-2xl text-lg leading-8 text-slate-600">{heroSubtitle}</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/products" className="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700">View Products</Link>
             <a href="#contact" className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-300">Contact Us</a>
-            <a href="tel:9119789307" className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-400">Call Now</a>
+            <a href={contactLink} className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-400">Call Now</a>
           </div>
         </div>
         <div className="overflow-hidden rounded-3xl bg-slate-900 p-8 text-white shadow-xl sm:p-12">
@@ -88,25 +99,25 @@ export default function HomePage() {
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-400">Contact Preview</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight">Get in touch with Bharat Electronics</h2>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight">Get in touch with {businessName}</h2>
             <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300">Call, email, or message us on Instagram. Visit our store for fast local service and reliable products.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Phone</p>
-              <p className="mt-3 text-lg font-semibold">9119789307</p>
+              <p className="mt-3 text-lg font-semibold">{phone}</p>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Email</p>
-              <p className="mt-3 text-lg font-semibold">amanmzm251316@gmail.com</p>
+              <p className="mt-3 text-lg font-semibold">{email}</p>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Instagram</p>
-              <p className="mt-3 text-lg font-semibold">@aman_saini____0001</p>
+              <p className="mt-3 text-lg font-semibold">{instagram}</p>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Location</p>
-              <p className="mt-3 text-lg font-semibold">Local shop in your area</p>
+              <p className="mt-3 text-lg font-semibold">{address}</p>
             </div>
           </div>
         </div>

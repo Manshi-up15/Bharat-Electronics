@@ -70,6 +70,9 @@ export default function AdminGalleryPage() {
 
       const res = await fetch("/api/uploads/gallery", {
         method: "POST",
+        headers: {
+          "x-csrf-token": String(getCsrf())
+        },
         body: form
       });
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getSettings } from "../../lib/models";
 
 const products = [
   { id: "1", name: "Premium Electrical Wire", category: "Electrical Wires", description: "Durable copper wire for residential and commercial use.", availability: "In Stock" },
@@ -6,7 +7,10 @@ const products = [
   { id: "3", name: "Modular Switch Board", category: "Switch Boards", description: "Modern switch board for homes and offices.", availability: "Out of Stock" }
 ];
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const settings = await getSettings();
+  const phone = settings?.phone || "9119789307";
+
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -36,7 +40,7 @@ export default function ProductsPage() {
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link href={`/products/${product.id}`} className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950">View Details</Link>
-                <a href="tel:9119789307" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900">Contact for Price</a>
+                <a href={`tel:${phone}`} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900">Contact for Price</a>
               </div>
             </div>
           </article>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Product } from "../lib/types";
+import { getSettings } from "../lib/api";
 import Link from "next/link";
 
 interface ProductBrowserProps {
@@ -12,6 +13,15 @@ export default function ProductBrowser({ products }: ProductBrowserProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [availability, setAvailability] = useState("All");
+  const [phone, setPhone] = useState("9119789307");
+
+  useEffect(() => {
+    getSettings().then((settings) => {
+      if (settings?.phone) {
+        setPhone(settings.phone);
+      }
+    });
+  }, []);
 
   const filtered = useMemo(() => {
     return products.filter((product) => {
@@ -64,7 +74,7 @@ export default function ProductBrowser({ products }: ProductBrowserProps) {
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link href={`/products/${product._id ?? product.id}`} className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950">View Details</Link>
-                <a href="tel:9119789307" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900">Contact for Price</a>
+                <a href={`tel:${phone}`} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900">Contact for Price</a>
               </div>
             </div>
           </article>
