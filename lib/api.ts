@@ -1,9 +1,7 @@
 import type { Category, GalleryItem, Product, Settings, User } from "./types";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
 async function jsonFetch<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${siteUrl}${path}`, {
+  const response = await fetch(path, {
     cache: "no-store",
     ...options
   });
