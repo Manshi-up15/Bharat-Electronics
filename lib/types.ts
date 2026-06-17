@@ -14,6 +14,7 @@ export interface Category {
   id?: string;
   name: string;
   slug: string;
+  image?: ImageResource;
   createdAt?: Date;
 }
 

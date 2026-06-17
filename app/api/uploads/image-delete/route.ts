@@ -22,7 +22,7 @@ export async function DELETE(request: Request) {
     await removeImageFromProducts(publicId);
     return NextResponse.json({ result });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    const message = err instanceof Error ? err.message : (err && typeof err === 'object' && 'message' in err ? String(err.message) : String(err));
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

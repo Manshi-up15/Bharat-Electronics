@@ -12,6 +12,9 @@ cloudinary.config({
 });
 
 export async function uploadDataUri(dataUri: string, options: { folder?: string } = {}) {
+  if (!process.env.CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME === "your_cloud_name") {
+    throw new Error("Cloudinary credentials are not configured in .env.local. Please add your CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.");
+  }
   return cloudinary.uploader.upload(dataUri, { folder: options.folder });
 }
 

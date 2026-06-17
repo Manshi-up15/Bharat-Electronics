@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { updateSettings, fetchSettings } from "../../../../lib/api";
+import { getSettings, saveSettings } from "../../../../lib/api";
 import type { Settings } from "../../../../lib/types";
 
 function getCsrf() {
@@ -29,8 +29,8 @@ export default function AdminSettingsPage() {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    fetchSettings()
-      .then((data) => {
+    getSettings()
+      .then((data: Settings | null) => {
         if (data) {
           setSettings({ ...initialSettings, ...data });
         }
@@ -42,7 +42,7 @@ export default function AdminSettingsPage() {
 
   const handleChange = (field: keyof Settings) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = event.target.value;
-    setSettings((prev) => ({ ...prev, [field]: value }));
+    setSettings((prev: Settings) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

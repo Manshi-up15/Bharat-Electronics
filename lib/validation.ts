@@ -25,7 +25,11 @@ export const productSchema = z.object({
 
 export const categorySchema = z.object({
   name: z.string().min(1),
-  slug: z.string().min(1)
+  slug: z.string().min(1),
+  image: z.object({
+    url: z.string().min(1),
+    publicId: z.string().optional().default("")
+  }).optional()
 });
 
 export const galleryItemSchema = z.object({

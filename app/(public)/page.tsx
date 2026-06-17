@@ -1,21 +1,6 @@
 import Link from "next/link";
-import { getSettings } from "../../lib/models";
-
-const categories = [
-  { name: "Electrical Wires", href: "/categories/wires" },
-  { name: "Switch Boards", href: "/categories/switch-boards" },
-  { name: "LED Bulbs", href: "/categories/led-bulbs" },
-  { name: "Coolers", href: "/categories/coolers" },
-  { name: "Pipes & Fittings", href: "/categories/pipes-fittings" },
-  { name: "Fans", href: "/categories/fans" },
-  { name: "Electrical Accessories", href: "/categories/accessories" }
-];
-
-const featuredProducts = [
-  { id: "1", name: "Premium Electrical Wire", category: "Electrical Wires", image: "/placeholder-product.jpg" },
-  { id: "2", name: "Smart LED Bulb", category: "LED Bulbs", image: "/placeholder-product.jpg" },
-  { id: "3", name: "Modern Switch Board", category: "Switch Boards", image: "/placeholder-product.jpg" }
-];
+import Image from "next/image";
+import { getSettings, getCategories, getProducts } from "../../lib/models";
 
 export default async function HomePage() {
   const settings = await getSettings();
@@ -27,6 +12,10 @@ export default async function HomePage() {
   const instagram = settings?.instagram || "@aman_saini____0001";
   const address = settings?.address || "Local shop in your area";
   const contactLink = settings?.whatsappNumber ? `https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}` : `tel:${phone}`;
+
+  const categories = await getCategories();
+  const allProducts = await getProducts();
+  const featuredProducts = allProducts.filter(p => p.featured).slice(0, 3);
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
@@ -64,36 +53,50 @@ export default async function HomePage() {
           <Link href="/categories" className="text-sm font-semibold text-amber-600 hover:text-amber-500">View all categories</Link>
         </div>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {categories.map((category) => (
-            <Link key={category.name} href={category.href} className="group overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
-              <div className="h-40 rounded-3xl bg-slate-100"></div>
+          {categories.slice(0, 4).map((category) => (
+            <Link key={category.slug} href={`/categories/${category.slug}`} className="group overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
+              {category.image ? (
+                <div className="relative h-40 w-full overflow-hidden rounded-3xl">
+                  <Image src={category.image.url} alt={category.name} fill className="object-cover transition group-hover:scale-105" />
+                </div>
+              ) : (
+                <div className="h-40 rounded-3xl bg-slate-100"></div>
+              )}
               <p className="mt-5 text-lg font-semibold text-slate-900 group-hover:text-amber-600">{category.name}</p>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="mt-16">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Featured Products</p>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Best selling items</h2>
+      {featuredProducts.length > 0 && (
+        <section className="mt-16">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Featured Products</p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Best selling items</h2>
+            </div>
+            <Link href="/products" className="text-sm font-semibold text-amber-600 hover:text-amber-500">Browse all products</Link>
           </div>
-          <Link href="/products" className="text-sm font-semibold text-amber-600 hover:text-amber-500">Browse all products</Link>
-        </div>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredProducts.map((product) => (
-            <article key={product.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
-              <div className="h-64 bg-slate-100" />
-              <div className="space-y-3 p-6">
-                <p className="text-sm uppercase tracking-[0.3em] text-amber-500">{product.category}</p>
-                <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
-                <Link href={`/products/${product.id}`} className="inline-flex items-center text-sm font-semibold text-amber-600 hover:text-amber-500">View Details</Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProducts.map((product) => (
+              <article key={product.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
+                {product.images && product.images[0] ? (
+                  <div className="relative h-64 w-full overflow-hidden">
+                    <Image src={product.images[0].url} alt={product.name} fill className="object-cover" />
+                  </div>
+                ) : (
+                  <div className="h-64 bg-slate-100" />
+                )}
+                <div className="space-y-3 p-6">
+                  <p className="text-sm uppercase tracking-[0.3em] text-amber-500">{product.categoryName || "Product"}</p>
+                  <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
+                  <Link href={`/products/${product.id}`} className="inline-flex items-center text-sm font-semibold text-amber-600 hover:text-amber-500">View Details</Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section id="contact" className="mt-20 rounded-[2rem] bg-slate-950 px-8 py-12 text-white sm:px-14">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
