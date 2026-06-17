@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import LogoutButton from "../../components/logout-button";
-import { verifyAuth } from "../../lib/auth";
+import LogoutButton from "../../../components/logout-button";
+import { verifyAuth } from "../../../lib/auth";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const payload = await verifyAuth();

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSettings as fetchSettings, saveSettings } from "../../../lib/api";
-import type { Settings } from "../../../lib/types";
+import { updateSettings, fetchSettings } from "../../../../lib/api";
+import type { Settings } from "../../../../lib/types";
 
 function getCsrf() {
   const match = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/);

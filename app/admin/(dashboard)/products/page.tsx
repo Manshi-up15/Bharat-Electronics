@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Loading from "@/components/Loading";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import type { Product, Category } from "../../../lib/types";
+import type { Product, Category } from "../../../../lib/types";
 
 export default function AdminProductsPage() {
   const [items, setItems] = useState<Product[] | null>(null);

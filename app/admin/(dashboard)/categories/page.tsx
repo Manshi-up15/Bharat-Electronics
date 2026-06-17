@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import Loading from "@/components/Loading";
-import EmptyState from "../../../components/EmptyState";
-import Link from "next/link";
+import EmptyState from "../../../../components/EmptyState";
 import toast from "react-hot-toast";
-import type { Category } from "../../../lib/types";
+import Link from "next/link";
+import type { Category } from "../../../../lib/types";
 
 function getCsrf() { const m = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/); return m ? decodeURIComponent(m[2]) : null; }
 
