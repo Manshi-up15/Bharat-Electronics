@@ -1,9 +1,10 @@
 import { getProducts, getCategories } from "../../lib/models";
+import type { Product, Category } from "../../lib/types";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const products = await getProducts();
-  const categories = await getCategories();
+  const products = (await getProducts()) as Product[];
+  const categories = (await getCategories()) as Category[];
   const baseUrl = process.env.SITE_URL || "http://localhost:3000";
 
   const urls = [

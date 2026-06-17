@@ -13,10 +13,15 @@ export async function getUsers() {
   return users.map(normalizeDocument);
 }
 
-export async function findUserByEmail(email: string) {
+export async function findUserByEmail(
+  email: string
+): Promise<(User & { id?: string }) | null> {
   const db = (await clientPromise).db();
   const user = await db.collection<User>("users").findOne({ email });
-  return user ? normalizeDocument(user) : null;
+
+  return user
+    ? (normalizeDocument(user) as User & { id?: string })
+    : null;
 }
 
 export async function createUser(user: Omit<User, "id" | "createdAt">) {

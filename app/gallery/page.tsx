@@ -2,8 +2,13 @@ import { getGalleryItems, getSettings } from "../../lib/models";
 import type { GalleryItem } from "../../lib/types";
 
 export default async function GalleryPage() {
-  const [items, settings] = await Promise.all([getGalleryItems(), getSettings()]);
-  const businessName = settings?.businessName || "Bharat Electronics";
+    const [galleryItems, settings] = await Promise.all([
+  getGalleryItems(),
+  getSettings(),
+]);
+
+const items = galleryItems as GalleryItem[];
+    const businessName = settings?.businessName || "Bharat Electronics";
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
@@ -22,8 +27,8 @@ export default async function GalleryPage() {
           </div>
         ) : (
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((item: GalleryItem) => (
-              <article key={item.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+            {items.map((item) => (
+                <article key={item.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
                 <img src={item.imageUrl} alt={item.title || "Gallery image"} className="h-72 w-full object-cover" />
                 <div className="space-y-2 p-4">
                   <h2 className="text-lg font-semibold text-slate-900">{item.title || "Untitled photo"}</h2>

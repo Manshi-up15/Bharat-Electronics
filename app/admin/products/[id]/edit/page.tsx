@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ProductForm from "../../../../components/admin/ProductForm";
-import Loading from "../../../../components/Loading";
+import ProductForm from "@/components/admin/ProductForm";
+import Loading from "@/components/Loading";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function EditProductPage({ params }: { params: { id: string } }) {
+export default function EditProductPage({
+  params,
+}: any) {
   const { id } = params;
   const [product, setProduct] = useState<any | null>(null);
   const router = useRouter();

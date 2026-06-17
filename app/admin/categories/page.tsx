@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import Loading from "../../../components/Loading";
+import Loading from "@/components/Loading";
 import EmptyState from "../../../components/EmptyState";
 import Link from "next/link";
 import toast from "react-hot-toast";

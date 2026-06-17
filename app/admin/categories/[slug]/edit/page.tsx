@@ -1,12 +1,17 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import CategoryForm from "../../../../components/admin/CategoryForm";
-import Loading from "../../../../components/Loading";
+import CategoryForm from "@/components/admin/CategoryForm";
+import Loading from "@/components/Loading";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function EditCategoryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function EditCategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const [category, setCategory] = useState<any | null>(null);
   const router = useRouter();
 

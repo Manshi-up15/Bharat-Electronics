@@ -109,7 +109,7 @@ export async function uploadProductImage(file: File) {
   const data = new FormData();
   data.append("file", file);
   data.append("folder", "bharat-electronics/products");
-  const response = await fetch(`${siteUrl}/api/uploads/product-images`, {
+  const response = await fetch("/api/uploads/product-images", {
     method: "POST",
     body: data
   });
@@ -126,7 +126,7 @@ export async function uploadGalleryImage(file: File, title?: string) {
   if (title) {
     data.append("title", title);
   }
-  const response = await fetch(`${siteUrl}/api/uploads/gallery`, {
+  const response = await fetch(`/api/uploads/gallery`, {
     method: "POST",
     body: data
   });
