@@ -44,6 +44,11 @@ export default async function ProductDetailsPage({
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <h1 className="text-4xl font-semibold text-slate-900">{product.name}</h1>
             <p className="mt-3 text-sm uppercase tracking-[0.3em] text-amber-500">{product.categoryName}</p>
+            {product.price !== undefined && product.price > 0 && (
+              <p className="mt-4 text-3xl font-bold text-slate-900">
+                {Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(product.price)}
+              </p>
+            )}
             <p className="mt-6 text-base leading-8 text-slate-600 whitespace-pre-wrap">{product.description}</p>
             <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
               <span className="rounded-full bg-emerald-100 px-3 py-2 text-emerald-800">{product.availability}</span>

@@ -43,6 +43,11 @@ export default async function CategoryPage({
               )}
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-slate-900">{product.name}</h2>
+                {product.price !== undefined && product.price > 0 && (
+                  <p className="mt-2 text-lg font-bold text-slate-900">
+                    {Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(product.price)}
+                  </p>
+                )}
                 <p className="mt-2 text-sm text-slate-600">Availability: {product.availability}</p>
                 <Link href={`/products/${product.id}`} className="mt-5 inline-flex rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-amber-400 transition">View Details</Link>
               </div>

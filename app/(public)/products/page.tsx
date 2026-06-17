@@ -33,6 +33,11 @@ export default async function ProductsPage() {
               </div>
               <div>
                 <h2 className="text-2xl font-semibold text-slate-900">{product.name}</h2>
+                {product.price !== undefined && product.price > 0 && (
+                  <p className="mt-2 text-lg font-bold text-slate-900">
+                    {Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(product.price)}
+                  </p>
+                )}
                 <p className="mt-3 text-sm leading-7 text-slate-600 line-clamp-2">{product.description}</p>
               </div>
               <div className="flex flex-wrap gap-3">

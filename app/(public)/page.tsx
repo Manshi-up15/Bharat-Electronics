@@ -90,6 +90,11 @@ export default async function HomePage() {
                 <div className="space-y-3 p-6">
                   <p className="text-sm uppercase tracking-[0.3em] text-amber-500">{product.categoryName || "Product"}</p>
                   <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
+                  {product.price !== undefined && product.price > 0 && (
+                    <p className="text-lg font-bold text-slate-900">
+                      {Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(product.price)}
+                    </p>
+                  )}
                   <Link href={`/products/${product.id}`} className="inline-flex items-center text-sm font-semibold text-amber-600 hover:text-amber-500">View Details</Link>
                 </div>
               </article>
