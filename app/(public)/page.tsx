@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSettings } from "../lib/models";
+import { getSettings } from "../../lib/models";
 
 const categories = [
   { name: "Electrical Wires", href: "/categories/wires" },

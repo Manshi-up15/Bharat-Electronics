@@ -1,4 +1,4 @@
-import { getSettings } from "../../lib/models";
+import { getSettings } from "../../../lib/models";
 
 export default async function AboutPage() {
   const settings = await getSettings();

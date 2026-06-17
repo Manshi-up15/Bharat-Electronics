@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSettings } from "../../lib/models";
+import { getSettings } from "../../../lib/models";
 
 const products = [
   { id: "1", name: "Premium Electrical Wire", category: "Electrical Wires", description: "Durable copper wire for residential and commercial use.", availability: "In Stock" },

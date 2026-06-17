@@ -1,15 +1,9 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import Loading from "@/components/Loading";
-import EmptyState from "../../../components/EmptyState";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import type { Product, Category } from "../../../lib/types";
-
-function getCsrf() {
-  const m = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/);
-  return m ? decodeURIComponent(m[2]) : null;
-}
 
 export default function AdminProductsPage() {
   const [items, setItems] = useState<Product[] | null>(null);
@@ -29,7 +23,7 @@ export default function AdminProductsPage() {
     try {
       const res = await fetch("/api/products");
       const data = await res.json();
-      setItems(data || []);
+      setItems(Array.isArray(data) ? data : []);
     } catch {
       toast.error("Failed to load products");
       setItems([]);
@@ -42,7 +36,7 @@ export default function AdminProductsPage() {
     try {
       const res = await fetch("/api/categories");
       const data = await res.json();
-      setCategories(data || []);
+      setCategories(Array.isArray(data) ? data : []);
     } catch {
       setCategories([]);
     }
@@ -63,11 +57,10 @@ export default function AdminProductsPage() {
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this product?")) return;
-    // optimistic
     const prev = items || [];
     setItems(prev.filter((p) => p.id !== id));
     toast.promise(
-      fetch(`/api/products/${id}`, { method: "DELETE", headers: { "x-csrf-token": String(getCsrf()) } }).then((r) => r.json()),
+      fetch(`/api/products/${id}`, { method: "DELETE" }).then((r) => r.json()),
       {
         loading: "Deleting...",
         success: "Product deleted",
@@ -80,62 +73,118 @@ export default function AdminProductsPage() {
 
   if (loading) return <Loading />;
 
-  if (!items || items.length === 0) return <EmptyState message="No products yet." />;
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Products</h1>
-        <Link href="/admin/products/create" className="rounded bg-amber-500 px-4 py-2 text-white">Add Product</Link>
+        <h1 className="text-2xl font-semibold text-slate-900">Products</h1>
+        <Link
+          href="/admin/products/create"
+          className="rounded-full bg-amber-500 px-5 py-2 text-sm font-semibold text-slate-950 hover:bg-amber-400 transition"
+        >
+          + Add Product
+        </Link>
       </div>
 
-      <div className="flex gap-3">
-        <input placeholder="Search" value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }} className="rounded border px-3 py-2" />
-        <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="rounded border px-3 py-2">
-          <option value="">All categories</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>{c.name}</option>
-          ))}
-        </select>
-      </div>
-
-      <table className="w-full table-auto">
-        <thead>
-          <tr className="text-left">
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Available</th>
-            <th>Featured</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {pageItems.map((p) => (
-            <tr key={p.id} className="border-t">
-              <td className="py-3">{p.name}</td>
-              <td>{p.categoryName || "—"}</td>
-              <td>{p.price}</td>
-              <td>{p.available ? "Yes" : "No"}</td>
-              <td>{p.featured ? "★" : ""}</td>
-              <td className="text-right">
-                <Link href={`/admin/products/${p.id}/edit`} className="mr-2 text-amber-600">Edit</Link>
-                <button onClick={() => handleDelete(p.id || "")} className="text-red-600">Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="flex items-center justify-between">
-        <div>
-          Page {page} / {totalPages}
+      {items && items.length === 0 ? (
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-12 text-center">
+          <p className="text-slate-500 text-sm mb-4">No products yet. Start by adding your first product.</p>
+          <Link
+            href="/admin/products/create"
+            className="rounded-full bg-amber-500 px-6 py-2 text-sm font-semibold text-slate-950 hover:bg-amber-400 transition"
+          >
+            + Add First Product
+          </Link>
         </div>
-        <div className="flex gap-2">
-          <button onClick={() => setPage((s) => Math.max(1, s - 1))} disabled={page === 1} className="rounded border px-3 py-1">Prev</button>
-          <button onClick={() => setPage((s) => Math.min(totalPages, s + 1))} disabled={page === totalPages} className="rounded border px-3 py-1">Next</button>
-        </div>
-      </div>
+      ) : (
+        <>
+          <div className="flex gap-3">
+            <input
+              placeholder="Search products..."
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setPage(1); }}
+              className="rounded-xl border border-slate-200 px-3 py-2 text-sm w-64"
+            />
+            <select
+              value={category}
+              onChange={(e) => { setCategory(e.target.value); setPage(1); }}
+              className="rounded-xl border border-slate-200 px-3 py-2 text-sm"
+            >
+              <option value="">All categories</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 border-b border-slate-200">
+                <tr className="text-left text-slate-600">
+                  <th className="px-4 py-3 font-semibold">Name</th>
+                  <th className="px-4 py-3 font-semibold">Category</th>
+                  <th className="px-4 py-3 font-semibold">Price (₹)</th>
+                  <th className="px-4 py-3 font-semibold">Availability</th>
+                  <th className="px-4 py-3 font-semibold">Featured</th>
+                  <th className="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {pageItems.map((p) => (
+                  <tr key={p.id} className="border-t border-slate-100 hover:bg-slate-50">
+                    <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>
+                    <td className="px-4 py-3 text-slate-600">{p.categoryName || "—"}</td>
+                    <td className="px-4 py-3 text-slate-600">{p.price ?? 0}</td>
+                    <td className="px-4 py-3">
+                      <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${
+                        p.availability === "In Stock"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-600"
+                      }`}>
+                        {p.availability || "—"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-amber-500">{p.featured ? "★" : ""}</td>
+                    <td className="px-4 py-3 text-right flex gap-3 justify-end">
+                      <Link
+                        href={`/admin/products/${p.id}/edit`}
+                        className="text-amber-600 font-medium hover:underline"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(p.id || "")}
+                        className="text-red-600 font-medium hover:underline"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex items-center justify-between text-sm text-slate-600">
+            <div>Page {page} / {totalPages}</div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setPage((s) => Math.max(1, s - 1))}
+                disabled={page === 1}
+                className="rounded-lg border border-slate-200 px-3 py-1 disabled:opacity-40"
+              >
+                Prev
+              </button>
+              <button
+                onClick={() => setPage((s) => Math.min(totalPages, s + 1))}
+                disabled={page === totalPages}
+                className="rounded-lg border border-slate-200 px-3 py-1 disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

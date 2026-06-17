@@ -1,5 +1,5 @@
-import { getGalleryItems, getSettings } from "../../lib/models";
-import type { GalleryItem } from "../../lib/types";
+import { getGalleryItems, getSettings } from "../../../lib/models";
+import type { GalleryItem } from "../../../lib/types";
 import Image from "next/image";
 
 export default async function GalleryPage() {

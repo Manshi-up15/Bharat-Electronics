@@ -1,4 +1,4 @@
-import { getSettings } from "../../lib/models";
+import { getSettings } from "../../../lib/models";
 
 export default async function ContactPage() {
   const settings = await getSettings();

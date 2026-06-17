@@ -1,5 +1,5 @@
-import { getProducts, getCategories } from "../../lib/models";
-import type { Product, Category } from "../../lib/types";
+import { getProducts, getCategories } from "../../../lib/models";
+import type { Product, Category } from "../../../lib/types";
 import { NextResponse } from "next/server";
 
 export async function GET() {

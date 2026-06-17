@@ -1,4 +1,4 @@
-import { getSettings } from "../../../lib/models";
+import { getSettings } from "../../../../lib/models";
 
 interface Product {
   id: string;
