@@ -8,13 +8,14 @@ async function main() {
     await client.connect();
     const db = client.db();
     const email = "admin@bharatelectronics.com";
+    const password = "Admin@123";
+    const passwordHash = await bcrypt.hash(password, 10);
     const existing = await db.collection("users").findOne({ email });
     if (existing) {
-      console.log("Admin user already exists:", email);
+      await db.collection("users").updateOne({ email }, { $set: { passwordHash } });
+      console.log("Admin user password updated:", email);
       return;
     }
-    const password = "ChangeMe123!";
-    const passwordHash = await bcrypt.hash(password, 10);
     const user = { name: "Admin", email, passwordHash, role: "admin", createdAt: new Date() };
     const result = await db.collection("users").insertOne(user);
     console.log("Admin user created with id:", result.insertedId.toString());

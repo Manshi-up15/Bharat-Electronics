@@ -1,7 +1,22 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
 import { tooManyRequests } from "./lib/rateLimiter";
+
+function decodeJwt(token: string) {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payloadPart = parts[1];
+    let base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+    while (base64.length % 4) {
+      base64 += "=";
+    }
+    const jsonStr = atob(base64);
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    return null;
+  }
+}
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -17,9 +32,8 @@ export function middleware(req: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    try {
-      jwt.verify(token, process.env.JWT_SECRET || "");
-    } catch (e) {
+    const payload = decodeJwt(token);
+    if (!payload || payload.role !== "admin" || (payload.exp && payload.exp < Date.now() / 1000)) {
       const url = req.nextUrl.clone();
       url.pathname = "/admin/login";
       return NextResponse.redirect(url);
