@@ -25,7 +25,6 @@ export async function PUT(
   if (!auth || auth.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  // look up category by slug first to get the ID
   const existing = await getCategoryBySlug(slug);
   if (!existing || !existing.id) {
     return NextResponse.json({ error: "Category not found" }, { status: 404 });
@@ -34,7 +33,10 @@ export async function PUT(
   const body = sanitizeObject(bodyRaw);
   const parsed = categorySchema.partial().safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid category data", details: parsed.error.flatten() }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid category data", details: parsed.error.flatten() },
+      { status: 400 }
+    );
   }
   const updated = await updateCategory(existing.id, parsed.data);
   return NextResponse.json(updated);

@@ -18,8 +18,13 @@ export async function POST(request: Request) {
   const body = sanitizeObject(bodyRaw);
   const parsed = productSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid product data", details: parsed.error.flatten() }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid product data", details: parsed.error.flatten() },
+      { status: 400 }
+    );
   }
-  const product = await createProduct(parsed.data as unknown as Parameters<typeof createProduct>[0]);
+  const product = await createProduct(
+    parsed.data as unknown as Parameters<typeof createProduct>[0]
+  );
   return NextResponse.json(product);
 }

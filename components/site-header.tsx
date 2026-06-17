@@ -28,7 +28,7 @@ export default function SiteHeader({ settings }: SiteHeaderProps) {
             </Link>
           ))}
         </nav>
-        <Link href="/admin" className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950">Admin</Link>
+        <Link href="/admin/login" className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950">Admin</Link>
       </div>
     </header>
   );

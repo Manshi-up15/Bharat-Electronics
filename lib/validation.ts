@@ -7,12 +7,20 @@ export const loginSchema = z.object({
 
 export const productSchema = z.object({
   name: z.string().min(1),
-  description: z.string().optional(),
+  description: z.string().optional().default(""),
   price: z.number().nonnegative().optional().default(0),
   categoryId: z.string().min(1),
-  availability: z.string().optional(),
-  featured: z.boolean().optional(),
-  images: z.array(z.object({ url: z.string(), publicId: z.string().optional().default("") })).optional().default([])
+  availability: z.string().optional().default("In Stock"),
+  featured: z.boolean().optional().default(false),
+  images: z
+    .array(
+      z.object({
+        url: z.string().min(1),
+        publicId: z.string().optional().default("")
+      })
+    )
+    .optional()
+    .default([])
 });
 
 export const categorySchema = z.object({

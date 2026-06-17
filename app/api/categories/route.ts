@@ -18,7 +18,10 @@ export async function POST(request: Request) {
   const body = sanitizeObject(bodyRaw);
   const parsed = categorySchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid category data", details: parsed.error.flatten() }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid category data", details: parsed.error.flatten() },
+      { status: 400 }
+    );
   }
   const category = await createCategory(parsed.data);
   return NextResponse.json(category);

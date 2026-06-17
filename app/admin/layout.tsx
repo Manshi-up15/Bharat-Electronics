@@ -1,22 +1,28 @@
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
+import SiteHeader from "../../components/site-header";
+import SiteFooter from "../../components/site-footer";
 import LogoutButton from "../../components/logout-button";
 import { verifyAuth } from "../../lib/auth";
 
-export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const payload = await verifyAuth();
+export default function AdminLayout({ children }: { children: ReactNode }) {
+  const payload = verifyAuth();
   if (!payload) {
     redirect("/admin/login");
   }
 
   return (
-    <div>
-      <div className="mx-auto max-w-7xl px-6 py-8">
-        <div className="flex items-center justify-end">
-          <LogoutButton />
+    <html>
+      <body>
+        <SiteHeader />
+        <div className="mx-auto max-w-7xl px-6 py-8">
+          <div className="flex items-center justify-end">
+            <LogoutButton />
+          </div>
+          {children}
         </div>
-        {children}
-      </div>
-    </div>
+        <SiteFooter />
+      </body>
+    </html>
   );
 }
