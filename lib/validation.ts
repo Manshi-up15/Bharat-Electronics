@@ -8,9 +8,11 @@ export const loginSchema = z.object({
 export const productSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
-  price: z.number().nonnegative(),
+  price: z.number().nonnegative().optional().default(0),
   categoryId: z.string().min(1),
-  images: z.array(z.object({ url: z.string().url(), publicId: z.string().optional() })).optional()
+  availability: z.string().optional(),
+  featured: z.boolean().optional(),
+  images: z.array(z.object({ url: z.string(), publicId: z.string().optional().default("") })).optional().default([])
 });
 
 export const categorySchema = z.object({
