@@ -16,7 +16,7 @@ export default async function CategoryPage({
   }
 
   const allProducts = await getProducts();
-  const products = allProducts.filter((p) => p.categoryId === category.id);
+  const products = allProducts.filter((p) => String(p.categoryId) === String(category.id));
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
