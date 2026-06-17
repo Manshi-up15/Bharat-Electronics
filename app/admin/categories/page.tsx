@@ -4,11 +4,12 @@ import Loading from "@/components/Loading";
 import EmptyState from "../../../components/EmptyState";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import type { Category } from "../../../lib/types";
 
 function getCsrf() { const m = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/); return m ? decodeURIComponent(m[2]) : null; }
 
 export default function AdminCategoriesPage() {
-  const [items, setItems] = useState<any[] | null>(null);
+  const [items, setItems] = useState<Category[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -21,7 +22,7 @@ export default function AdminCategoriesPage() {
       const res = await fetch("/api/categories");
       const data = await res.json();
       setItems(data || []);
-    } catch (e) {
+    } catch {
       toast.error("Failed to load categories");
       setItems([]);
     } finally { setLoading(false); }
@@ -44,9 +45,10 @@ export default function AdminCategoriesPage() {
       const res = await fetch(`/api/categories/${slug}`, { method: "DELETE", headers: { "x-csrf-token": String(getCsrf()) } });
       if (!res.ok) throw new Error("Delete failed");
       toast.success("Category deleted");
-    } catch (e: any) {
+    } catch (e) {
       setItems(prev);
-      toast.error(e.message || "Delete failed");
+      const message = e instanceof Error ? e.message : "Delete failed";
+      toast.error(message);
     }
   }
 

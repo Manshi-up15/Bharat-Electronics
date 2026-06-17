@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import cloudinary, { destroy } from "../../../../lib/cloudinary";
+import { destroy } from "../../../../lib/cloudinary";
 import { deleteGalleryItem, removeImageFromProducts } from "../../../../lib/models";
 import { verifyRequestAuth } from "../../../../lib/auth";
 
@@ -21,7 +21,8 @@ export async function DELETE(request: Request) {
     }
     await removeImageFromProducts(publicId);
     return NextResponse.json({ result });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || String(err) }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

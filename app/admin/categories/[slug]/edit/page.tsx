@@ -5,19 +5,31 @@ import CategoryForm from "@/components/admin/CategoryForm";
 import Loading from "@/components/Loading";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import type { Category } from "@/lib/types";
 
-export default async function EditCategoryPage({
+export default function EditCategoryPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-  const [category, setCategory] = useState<any | null>(null);
+  const [slug, setSlug] = useState<string | null>(null);
+  const [category, setCategory] = useState<Category | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    fetch(`/api/categories/${slug}`).then((r) => r.json()).then((data) => setCategory(data)).catch(() => { toast.error("Failed to load"); router.back(); });
-  }, [slug]);
+    params.then((p) => setSlug(p.slug));
+  }, [params]);
+
+  useEffect(() => {
+    if (!slug) return;
+    fetch(`/api/categories/${slug}`)
+      .then((r) => r.json())
+      .then((data) => setCategory(data))
+      .catch(() => {
+        toast.error("Failed to load");
+        router.back();
+      });
+  }, [slug, router]);
 
   if (!category) return <Loading />;
 

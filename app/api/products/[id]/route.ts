@@ -31,7 +31,7 @@ export async function PUT(
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid product data" }, { status: 400 });
   }
-  const updated = await updateProduct(id, parsed.data as any);
+  const updated = await updateProduct(id, parsed.data as unknown as Parameters<typeof updateProduct>[1]);
   if (!updated) {
     return NextResponse.json({ error: "Product not found." }, { status: 404 });
   }

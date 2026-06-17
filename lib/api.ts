@@ -1,4 +1,4 @@
-import type { Category, GalleryItem, Product, Settings, User } from "./types";
+import type { Category, GalleryItem, Product, Settings } from "./types";
 
 async function jsonFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(path, {

@@ -4,8 +4,8 @@ export function sanitizeInput(input: string) {
   return xss(input);
 }
 
-export function sanitizeObject<T extends Record<string, any>>(obj: T): T {
-  const out: Record<string, any> = {};
+export function sanitizeObject<T extends Record<string, unknown>>(obj: T): T {
+  const out: Record<string, unknown> = {};
   for (const key of Object.keys(obj)) {
     const val = obj[key];
     if (typeof val === "string") out[key] = xss(val);

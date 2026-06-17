@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getProducts, createProduct } from "../../../lib/models";
 import { verifyRequestAuth } from "../../../lib/auth";
-import { generateCsrfToken, verifyCsrfToken } from "../../../lib/csrf";
+import { verifyCsrfToken } from "../../../lib/csrf";
 import { productSchema } from "../../../lib/validation";
 import { sanitizeObject } from "../../../lib/sanitize";
 
@@ -29,6 +29,6 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid product data" }, { status: 400 });
   }
-  const product = await createProduct(parsed.data as any);
+  const product = await createProduct(parsed.data as unknown as Parameters<typeof createProduct>[0]);
   return NextResponse.json(product);
 }

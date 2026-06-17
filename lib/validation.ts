@@ -38,4 +38,5 @@ export const settingsSchema = z.object({
   googleMapsUrl: z.string().url().optional()
 });
 
-export default { loginSchema, productSchema, categorySchema, galleryItemSchema, settingsSchema };
+const validationSchemas = { loginSchema, productSchema, categorySchema, galleryItemSchema, settingsSchema };
+export default validationSchemas;

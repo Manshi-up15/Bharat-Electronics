@@ -4,6 +4,7 @@ import Loading from "@/components/Loading";
 import EmptyState from "../../../components/EmptyState";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import type { Product, Category } from "../../../lib/types";
 
 function getCsrf() {
   const m = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/);
@@ -11,12 +12,12 @@ function getCsrf() {
 }
 
 export default function AdminProductsPage() {
-  const [items, setItems] = useState<any[] | null>(null);
+  const [items, setItems] = useState<Product[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -29,7 +30,7 @@ export default function AdminProductsPage() {
       const res = await fetch("/api/products");
       const data = await res.json();
       setItems(data || []);
-    } catch (e: any) {
+    } catch {
       toast.error("Failed to load products");
       setItems([]);
     } finally {
@@ -119,7 +120,7 @@ export default function AdminProductsPage() {
               <td>{p.featured ? "★" : ""}</td>
               <td className="text-right">
                 <Link href={`/admin/products/${p.id}/edit`} className="mr-2 text-amber-600">Edit</Link>
-                <button onClick={() => handleDelete(p.id)} className="text-red-600">Delete</button>
+                <button onClick={() => handleDelete(p.id || "")} className="text-red-600">Delete</button>
               </td>
             </tr>
           ))}

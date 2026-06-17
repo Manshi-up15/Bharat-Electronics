@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getSettings } from "../../../lib/models";
 
 interface Product {

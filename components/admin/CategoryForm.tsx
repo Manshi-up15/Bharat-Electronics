@@ -4,6 +4,7 @@ import { categorySchema } from "../../lib/validation";
 import { sanitizeObject } from "../../lib/sanitize";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import type { Category } from "../../lib/types";
 
 function slugify(text: string) {
   return text
@@ -17,12 +18,12 @@ function slugify(text: string) {
 
 function getCsrf() { const m = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/); return m ? decodeURIComponent(m[2]) : null; }
 
-export default function CategoryForm({ category }: { category?: any }) {
+export default function CategoryForm({ category }: { category?: Category }) {
   const [name, setName] = useState(category?.name || "");
   const [slug, setSlug] = useState(category?.slug || "");
   const router = useRouter();
 
-  useEffect(() => { if (!category) setSlug(slugify(name)); }, [name]);
+  useEffect(() => { if (!category) setSlug(slugify(name)); }, [name, category]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -45,8 +46,9 @@ export default function CategoryForm({ category }: { category?: any }) {
         // optimistic navigation to edit
         router.push(`/admin/categories/${created.slug}/edit`);
       }
-    } catch (e: any) {
-      toast.error(e.message || "Save failed");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Save failed";
+      toast.error(message);
     }
   }
 

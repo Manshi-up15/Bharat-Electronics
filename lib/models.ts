@@ -2,15 +2,19 @@ import { ObjectId } from "mongodb";
 import clientPromise from "./db";
 import type { Category, GalleryItem, Product, Settings, User } from "./types";
 
-function normalizeDocument<T extends { _id?: ObjectId }>(doc: T) {
-  const { _id, ...rest } = doc as { _id?: ObjectId } & Record<string, unknown>;
-  return { ...(rest as Omit<T, "_id">), id: _id?.toString() } as T & { id?: string };
+function normalizeDocument<T>(doc: T & { _id?: ObjectId | string }) {
+  const { _id, ...rest } = doc;
+
+  return {
+    ...rest,
+    id: _id?.toString()
+  };
 }
 
 export async function getUsers() {
   const db = (await clientPromise).db();
   const users = await db.collection<User>("users").find().toArray();
-  return users.map(normalizeDocument);
+  return users.map((user) => normalizeDocument(user));
 }
 
 export async function findUserByEmail(
@@ -136,11 +140,18 @@ export async function getProductById(id: string) {
   return product ? (normalizeDocument(product) as Product & { categoryName?: string }) : null;
 }
 
+type ProductInsert = Omit<Product, "id" | "createdAt" | "updatedAt" | "categoryId"> & {
+  categoryId: ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export async function createProduct(product: Omit<Product, "id" | "createdAt" | "updatedAt">) {
   const db = (await clientPromise).db();
-  const result = await db.collection<Product>("products").insertOne({
-    ...product,
-    categoryId: new ObjectId(product.categoryId),
+  const { categoryId, ...rest } = product;
+  const result = await db.collection<ProductInsert>("products").insertOne({
+    ...rest,
+    categoryId: new ObjectId(categoryId),
     createdAt: new Date(),
     updatedAt: new Date()
   });
@@ -150,11 +161,11 @@ export async function createProduct(product: Omit<Product, "id" | "createdAt" | 
 export async function updateProduct(id: string, product: Partial<Omit<Product, "id" | "createdAt" | "updatedAt">>) {
   const db = (await clientPromise).db();
   const objectId = new ObjectId(id);
-  const updateBody: Partial<any> = { ...product, updatedAt: new Date() };
+  const updateBody: Record<string, unknown> = { ...product, updatedAt: new Date() };
   if (product.categoryId) {
     updateBody.categoryId = new ObjectId(product.categoryId);
   }
-  await db.collection<Product>("products").updateOne({ _id: objectId }, { $set: updateBody });
+  await db.collection("products").updateOne({ _id: objectId }, { $set: updateBody });
   return getProductById(id);
 }
 
@@ -200,6 +211,6 @@ export async function getSettings() {
 
 export async function upsertSettings(settings: Partial<Settings>) {
   const db = (await clientPromise).db();
-  const result = await db.collection<Settings>("settings").updateOne({}, { $set: settings }, { upsert: true });
+  await db.collection<Settings>("settings").updateOne({}, { $set: settings }, { upsert: true });
   return getSettings();
 }

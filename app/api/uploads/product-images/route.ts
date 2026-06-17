@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import cloudinary, { uploadDataUri } from "../../../../lib/cloudinary";
+import { uploadDataUri } from "../../../../lib/cloudinary";
 import { verifyRequestAuth } from "../../../../lib/auth";
 
 export async function POST(request: Request) {
@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const form = await request.formData();
-  const files = form.getAll("file") as any[];
+  const files = form.getAll("file") as unknown as File[];
   const folder = (form.get("folder") as string) || "bharat-electronics/products";
 
   if (!files || files.length === 0) {
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const uploads = [] as any[];
+    const uploads: { url: string; publicId: string }[] = [];
     for (const file of files) {
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -26,7 +26,8 @@ export async function POST(request: Request) {
       uploads.push({ url: result.secure_url, publicId: result.public_id });
     }
     return NextResponse.json(uploads);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || String(err) }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

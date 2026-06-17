@@ -1,19 +1,20 @@
+import { ObjectId } from "mongodb";
 export interface User {
-  _id?: string;
+  _id?: ObjectId;
   id?: string;
   name: string;
   email: string;
   passwordHash: string;
   role: string;
-  createdAt?: string;
+  createdAt?: Date;
 }
 
 export interface Category {
-  _id?: string;
+  _id?: ObjectId;
   id?: string;
   name: string;
   slug: string;
-  createdAt?: string;
+  createdAt?: Date;
 }
 
 export interface ImageResource {
@@ -22,7 +23,7 @@ export interface ImageResource {
 }
 
 export interface Product {
-  _id?: string;
+  _id?: ObjectId;
   id?: string;
   name: string;
   categoryId: string;
@@ -31,17 +32,19 @@ export interface Product {
   images: ImageResource[];
   availability: string;
   featured?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  price?: number;
+  available?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface GalleryItem {
-  _id?: string;
+  _id?: ObjectId;
   id?: string;
   imageUrl: string;
   publicId: string;
   title?: string;
-  uploadedAt?: string;
+  uploadedAt?: Date;
 }
 
 export interface Settings {

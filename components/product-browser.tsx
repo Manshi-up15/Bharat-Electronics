@@ -34,6 +34,11 @@ export default function ProductBrowser({ products }: ProductBrowserProps) {
 
   const categories = Array.from(new Set(products.map((product) => product.categoryName || "Uncategorized")));
 
+  const productsWithId = filtered.map((product, index) => ({
+    product,
+    id: product.id ?? product._id?.toString() ?? `product-${index}`
+  }));
+
   return (
     <div className="space-y-8">
       <div className="grid gap-4 md:grid-cols-[1.5fr_1fr_1fr]">
@@ -60,8 +65,8 @@ export default function ProductBrowser({ products }: ProductBrowserProps) {
         </label>
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((product) => (
-          <article key={product._id ?? product.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
+        {productsWithId.map(({ product, id }) => (
+          <article key={id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
             <div className="h-64 bg-slate-100" />
             <div className="space-y-4 p-6">
               <div className="flex items-center justify-between text-sm uppercase tracking-[0.3em] text-amber-500">
@@ -73,13 +78,13 @@ export default function ProductBrowser({ products }: ProductBrowserProps) {
                 <p className="mt-3 text-sm leading-7 text-slate-600">{product.description}</p>
               </div>
               <div className="flex flex-wrap gap-3">
-                <Link href={`/products/${product._id ?? product.id}`} className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950">View Details</Link>
+                <Link href={`/products/${id}`} className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950">View Details</Link>
                 <a href={`tel:${phone}`} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900">Contact for Price</a>
               </div>
             </div>
           </article>
         ))}
-        {filtered.length === 0 && (
+        {productsWithId.length === 0 && (
           <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center text-slate-600 shadow-sm">No products match your search criteria.</div>
         )}
       </div>

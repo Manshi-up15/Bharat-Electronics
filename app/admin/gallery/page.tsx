@@ -5,6 +5,7 @@ import Loading from "@/components/Loading";
 import EmptyState from "../../../components/EmptyState";
 import toast from "react-hot-toast";
 import { GalleryItem } from "../../../lib/types";
+import Image from "next/image";
 
 function getCsrf() {
   const m = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/);
@@ -32,7 +33,7 @@ export default function AdminGalleryPage() {
       const res = await fetch("/api/gallery", { cache: "no-store" });
       const data = await res.json();
       setItems(Array.isArray(data) ? data : []);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load gallery");
       setItems([]);
     } finally {
@@ -88,8 +89,9 @@ export default function AdminGalleryPage() {
       setTitle("");
       setShowUpload(false);
       toast.success(`Uploaded ${createdItems.length} photo${createdItems.length === 1 ? "" : "s"}`);
-    } catch (err: any) {
-      toast.error(err.message || "Upload failed.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Upload failed.";
+      toast.error(message);
     } finally {
       setUploading(false);
     }
@@ -114,9 +116,10 @@ export default function AdminGalleryPage() {
         throw new Error(text || "Delete failed");
       }
       toast.success("Photo deleted");
-    } catch (err: any) {
+    } catch (err) {
       setItems(prevItems);
-      toast.error(err.message || "Delete failed");
+      const message = err instanceof Error ? err.message : "Delete failed";
+      toast.error(message);
     }
   }
 
@@ -178,7 +181,7 @@ export default function AdminGalleryPage() {
             {pageItems.map((item) => (
               <div key={item.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-sm">
                 <button type="button" onClick={() => setPreviewItem(item)} className="group block overflow-hidden">
-                  <img src={item.imageUrl} alt={item.title || "Gallery photo"} className="h-64 w-full object-cover transition duration-200 group-hover:scale-105" />
+                  <Image src={item.imageUrl} alt={item.title || "Gallery photo"} width={500} height={300} className="h-64 w-full object-cover transition duration-200 group-hover:scale-105" />
                 </button>
                 <div className="space-y-3 p-4">
                   <div className="flex items-start justify-between gap-3">
@@ -215,7 +218,7 @@ export default function AdminGalleryPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4">
           <div className="relative max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl">
             <button type="button" onClick={() => setPreviewItem(null)} className="absolute right-4 top-4 rounded-full bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700">Close</button>
-            <img src={previewItem.imageUrl} alt={previewItem.title || "Gallery preview"} className="h-[70vh] w-full object-contain bg-slate-900" />
+            <Image src={previewItem.imageUrl} alt={previewItem.title || "Gallery preview"} width={1200} height={800} className="h-[70vh] w-full object-contain bg-slate-900" />
             <div className="space-y-2 p-6">
               <h3 className="text-xl font-semibold text-slate-900">{previewItem.title || "Untitled photo"}</h3>
               <p className="text-sm text-slate-600">{previewItem.uploadedAt ? new Date(previewItem.uploadedAt).toLocaleString() : "Uploaded recently"}</p>

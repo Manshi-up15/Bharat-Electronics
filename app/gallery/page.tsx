@@ -1,5 +1,6 @@
 import { getGalleryItems, getSettings } from "../../lib/models";
 import type { GalleryItem } from "../../lib/types";
+import Image from "next/image";
 
 export default async function GalleryPage() {
     const [galleryItems, settings] = await Promise.all([
@@ -29,7 +30,7 @@ const items = galleryItems as GalleryItem[];
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((item) => (
                 <article key={item.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-                <img src={item.imageUrl} alt={item.title || "Gallery image"} className="h-72 w-full object-cover" />
+                <Image src={item.imageUrl} alt={item.title || "Gallery image"} width={500} height={350} className="h-72 w-full object-cover" />
                 <div className="space-y-2 p-4">
                   <h2 className="text-lg font-semibold text-slate-900">{item.title || "Untitled photo"}</h2>
                   <p className="text-sm text-slate-500">{item.uploadedAt ? new Date(item.uploadedAt).toLocaleDateString() : "Published recently"}</p>

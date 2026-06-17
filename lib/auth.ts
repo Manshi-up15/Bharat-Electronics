@@ -8,12 +8,13 @@ export interface AuthPayload {
   role: string;
 }
 
-export function getAuthToken() {
-  return cookies().get("authToken")?.value;
+export async function getAuthToken() {
+  const cookieStore = await cookies();
+  return cookieStore.get("authToken")?.value;
 }
 
-export function verifyAuth() {
-  const token = getAuthToken();
+export async function verifyAuth() {
+  const token = await getAuthToken();
   if (!token) {
     return null;
   }

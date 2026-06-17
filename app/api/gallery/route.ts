@@ -3,7 +3,7 @@ import { getGalleryItems, createGalleryItem } from "../../../lib/models";
 import { verifyRequestAuth } from "../../../lib/auth";
 import { sanitizeObject } from "../../../lib/sanitize";
 import { galleryItemSchema } from "../../../lib/validation";
-import { generateCsrfToken, verifyCsrfToken } from "../../../lib/csrf";
+import { verifyCsrfToken } from "../../../lib/csrf";
 
 export async function GET() {
   const gallery = await getGalleryItems();
@@ -31,6 +31,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid gallery data" }, { status: 400 });
   }
 
-  const galleryItem = await createGalleryItem(parsed.data as any);
+  const galleryItem = await createGalleryItem(parsed.data);
   return NextResponse.json(galleryItem);
 }

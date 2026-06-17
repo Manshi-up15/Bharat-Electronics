@@ -2,22 +2,24 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import type { Product, Category, ImageResource } from "../../lib/types";
 
 function getCsrf() {
   const m = document.cookie.match(/(^|;)\s*csrfToken=([^;]+)/);
   return m ? decodeURIComponent(m[2]) : null;
 }
 
-export default function ProductForm({ product }: { product?: any }) {
+export default function ProductForm({ product }: { product?: Product }) {
   const [name, setName] = useState(product?.name || "");
   const [description, setDescription] = useState(product?.description || "");
-  const [price, setPrice] = useState(product?.price || 0);
+  const [price, setPrice] = useState(0); // Price from schema if exists or keep visual default
   const [categoryId, setCategoryId] = useState(product?.categoryId || "");
-  const [available, setAvailable] = useState(product?.available ?? true);
+  const [available, setAvailable] = useState<boolean>(product ? (product.availability === "In Stock" || product.availability === "true" || product.availability === "available") : true);
   const [featured, setFeatured] = useState(product?.featured ?? false);
-  const [images, setImages] = useState<any[]>(product?.images || []);
+  const [images, setImages] = useState<ImageResource[]>(product?.images || []);
   const [newFiles, setNewFiles] = useState<FileList | null>(null);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const router = useRouter();
 
   useEffect(() => { fetchCategories(); }, []);
@@ -28,7 +30,7 @@ export default function ProductForm({ product }: { product?: any }) {
     setCategories(data || []);
   }
 
-  async function uploadFiles(): Promise<any[]> {
+  async function uploadFiles(): Promise<ImageResource[]> {
     if (!newFiles || newFiles.length === 0) return [];
     const form = new FormData();
     for (const file of Array.from(newFiles)) form.append("file", file);
@@ -47,7 +49,14 @@ export default function ProductForm({ product }: { product?: any }) {
       const uploads = await uploadFiles();
       const imageObjs = Array.isArray(uploads) ? uploads.concat(images) : images;
 
-      const payload = { name, description, price: Number(price), categoryId, available, featured, images: imageObjs };
+      const payload = {
+        name,
+        description,
+        categoryId,
+        availability: available ? "In Stock" : "Out of Stock",
+        featured,
+        images: imageObjs
+      };
 
       if (product && product.id) {
         // optimistic UI handled by parent list page if needed
@@ -61,8 +70,9 @@ export default function ProductForm({ product }: { product?: any }) {
         toast.success("Product created");
         router.push("/admin/products");
       }
-    } catch (err: any) {
-      toast.error(err.message || "Save failed");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Save failed";
+      toast.error(message);
     }
   }
 
@@ -73,7 +83,7 @@ export default function ProductForm({ product }: { product?: any }) {
     try {
       await fetch("/api/uploads/image-delete", { method: "DELETE", headers: { "Content-Type": "application/json", "x-csrf-token": String(getCsrf()) }, body: JSON.stringify({ publicId }) });
       toast.success("Image removed");
-    } catch (e: any) {
+    } catch {
       setImages(prev);
       toast.error("Failed to remove image");
     }
@@ -98,7 +108,7 @@ export default function ProductForm({ product }: { product?: any }) {
         <div className="flex gap-2">
           {images.map((img) => (
             <div key={img.publicId || img.url} className="w-24">
-              <img src={img.url} alt="" className="h-16 w-full object-cover" />
+              <Image src={img.url} alt="Product image preview" width={96} height={64} className="h-16 w-full object-cover" />
               <button type="button" onClick={() => handleRemoveImage(img.publicId)} className="text-sm text-red-600">Remove</button>
             </div>
           ))}

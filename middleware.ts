@@ -28,7 +28,7 @@ export function middleware(req: NextRequest) {
 
   // basic rate limiting by IP for all API routes
   if (pathname.startsWith("/api")) {
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || req.ip || "unknown";
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
     if (tooManyRequests(String(ip))) {
       return new NextResponse(JSON.stringify({ error: "Too many requests" }), { status: 429 });
     }
