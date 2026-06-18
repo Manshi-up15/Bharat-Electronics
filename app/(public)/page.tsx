@@ -22,12 +22,12 @@ export default async function HomePage() {
       <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div className="space-y-6">
           <p className="text-sm uppercase tracking-[0.3em] text-amber-500">{businessName}</p>
-          <h1 className="text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">{heroTitle}</h1>
-          <p className="max-w-2xl text-lg leading-8 text-slate-600">{heroSubtitle}</p>
+          <h1 className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-slate-50 sm:text-5xl">{heroTitle}</h1>
+          <p className="max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">{heroSubtitle}</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/products" className="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700">View Products</Link>
-            <a href="#contact" className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-300">Contact Us</a>
-            <a href={contactLink} className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-400">Call Now</a>
+            <a href="#contact" className="rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-5 py-3 text-sm font-semibold text-slate-900 dark:text-slate-50 transition hover:border-slate-300">Contact Us</a>
+            <a href={contactLink} className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-900 dark:text-slate-50 transition hover:bg-amber-400">Call Now</a>
           </div>
         </div>
         <div className="overflow-hidden rounded-3xl bg-slate-900 p-8 text-white shadow-xl sm:p-12">
@@ -48,21 +48,21 @@ export default async function HomePage() {
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Featured Categories</p>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Shop by category</h2>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Shop by category</h2>
           </div>
           <Link href="/categories" className="text-sm font-semibold text-amber-600 hover:text-amber-500">View all categories</Link>
         </div>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {categories.slice(0, 4).map((category) => (
-            <Link key={category.slug} href={`/categories/${category.slug}`} className="group overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
+            <Link key={category.slug} href={`/categories/${category.slug}`} className="group overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:-translate-y-1 hover:shadow-lg">
               {category.image ? (
                 <div className="relative h-40 w-full overflow-hidden rounded-3xl">
                   <Image src={category.image.url} alt={category.name} fill className="object-cover transition group-hover:scale-105" />
                 </div>
               ) : (
-                <div className="h-40 rounded-3xl bg-slate-100"></div>
+                <div className="h-40 rounded-3xl bg-slate-100 dark:bg-slate-800"></div>
               )}
-              <p className="mt-5 text-lg font-semibold text-slate-900 group-hover:text-amber-600">{category.name}</p>
+              <p className="mt-5 text-lg font-semibold text-slate-900 dark:text-slate-50 group-hover:text-amber-600">{category.name}</p>
             </Link>
           ))}
         </div>
@@ -73,25 +73,25 @@ export default async function HomePage() {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Featured Products</p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Best selling items</h2>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Best selling items</h2>
             </div>
             <Link href="/products" className="text-sm font-semibold text-amber-600 hover:text-amber-500">Browse all products</Link>
           </div>
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {featuredProducts.map((product) => (
-              <article key={product.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
+              <article key={product.id} className="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition hover:shadow-lg">
                 {product.images && product.images[0] ? (
                   <div className="relative h-64 w-full overflow-hidden">
                     <Image src={product.images[0].url} alt={product.name} fill className="object-cover" />
                   </div>
                 ) : (
-                  <div className="h-64 bg-slate-100" />
+                  <div className="h-64 bg-slate-100 dark:bg-slate-800" />
                 )}
                 <div className="space-y-3 p-6">
                   <p className="text-sm uppercase tracking-[0.3em] text-amber-500">{product.categoryName || "Product"}</p>
-                  <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">{product.name}</h3>
                   {product.price !== undefined && product.price > 0 && (
-                    <p className="text-lg font-bold text-slate-900">
+                    <p className="text-lg font-bold text-slate-900 dark:text-slate-50">
                       {Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(product.price)}
                     </p>
                   )}

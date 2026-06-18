@@ -129,35 +129,35 @@ export default function AdminGalleryPage() {
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
-      <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-10 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Gallery Management</p>
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Manage gallery photos</h1>
-            <p className="mt-2 text-sm leading-6 text-slate-600">Upload, preview, and remove images from your public gallery.</p>
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Manage gallery photos</h1>
+            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Upload, preview, and remove images from your public gallery.</p>
           </div>
-          <button type="button" onClick={() => setShowUpload((open) => !open)} className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950">
+          <button type="button" onClick={() => setShowUpload((open) => !open)} className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950 dark:text-slate-50">
             {showUpload ? "Hide upload" : "Upload photo"}
           </button>
         </div>
 
         {showUpload && (
-          <form onSubmit={handleUpload} className="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-6">
+          <form onSubmit={handleUpload} className="mt-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-6">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
-                <span className="text-sm font-medium text-slate-900">Photo title</span>
-                <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Optional title for uploaded photos" className="mt-2 w-full rounded border border-slate-200 bg-white px-3 py-2" />
+                <span className="text-sm font-medium text-slate-900 dark:text-slate-50">Photo title</span>
+                <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Optional title for uploaded photos" className="mt-2 w-full rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2" />
               </label>
               <label className="block">
-                <span className="text-sm font-medium text-slate-900">Select files</span>
-                <input type="file" multiple accept="image/*" onChange={(e) => setSelectedFiles(e.target.files)} className="mt-2 w-full rounded border border-slate-200 bg-white px-3 py-2" />
+                <span className="text-sm font-medium text-slate-900 dark:text-slate-50">Select files</span>
+                <input type="file" multiple accept="image/*" onChange={(e) => setSelectedFiles(e.target.files)} className="mt-2 w-full rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2" />
               </label>
             </div>
             <div className="mt-6 flex items-center gap-3">
-              <button type="submit" disabled={uploading} className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950 disabled:opacity-50">
+              <button type="submit" disabled={uploading} className="rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950 dark:text-slate-50 disabled:opacity-50">
                 {uploading ? "Uploading..." : "Upload photos"}
               </button>
-              <button type="button" onClick={() => { setShowUpload(false); setSelectedFiles(null); setTitle(""); }} className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900">
+              <button type="button" onClick={() => { setShowUpload(false); setSelectedFiles(null); setTitle(""); }} className="rounded-full border border-slate-300 bg-white dark:bg-slate-900 px-5 py-3 text-sm font-semibold text-slate-900 dark:text-slate-50">
                 Cancel
               </button>
             </div>
@@ -166,10 +166,10 @@ export default function AdminGalleryPage() {
 
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">Gallery photos</h2>
-            <p className="text-sm text-slate-600">{filteredItems.length} photo{filteredItems.length === 1 ? "" : "s"}</p>
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">Gallery photos</h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400">{filteredItems.length} photo{filteredItems.length === 1 ? "" : "s"}</p>
           </div>
-          <input value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }} placeholder="Search by title" className="w-full rounded border border-slate-200 bg-white px-4 py-3 shadow-sm sm:w-80" />
+          <input value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }} placeholder="Search by title" className="w-full rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 shadow-sm sm:w-80" />
         </div>
 
         {filteredItems.length === 0 ? (
@@ -179,15 +179,15 @@ export default function AdminGalleryPage() {
         ) : (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {pageItems.map((item) => (
-              <div key={item.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-sm">
+              <div key={item.id} className="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 shadow-sm">
                 <button type="button" onClick={() => setPreviewItem(item)} className="group block overflow-hidden">
                   <Image src={item.imageUrl} alt={item.title || "Gallery photo"} width={500} height={300} className="h-64 w-full object-cover transition duration-200 group-hover:scale-105" />
                 </button>
                 <div className="space-y-3 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-semibold text-slate-900">{item.title || "Untitled photo"}</p>
-                      <p className="text-sm text-slate-500">{item.uploadedAt ? new Date(item.uploadedAt).toLocaleDateString() : "Uploaded recently"}</p>
+                      <p className="font-semibold text-slate-900 dark:text-slate-50">{item.title || "Untitled photo"}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{item.uploadedAt ? new Date(item.uploadedAt).toLocaleDateString() : "Uploaded recently"}</p>
                     </div>
                     <button type="button" onClick={() => handleDelete(item)} className="rounded-full bg-red-500 px-3 py-2 text-xs font-semibold text-white">
                       Delete
@@ -204,10 +204,10 @@ export default function AdminGalleryPage() {
             Page {page} of {totalPages}
           </div>
           <div className="flex gap-2">
-            <button onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page === 1} className="rounded border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 disabled:opacity-50">
+            <button onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page === 1} className="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm text-slate-700 disabled:opacity-50">
               Prev
             </button>
-            <button onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={page === totalPages} className="rounded border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 disabled:opacity-50">
+            <button onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={page === totalPages} className="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm text-slate-700 disabled:opacity-50">
               Next
             </button>
           </div>
@@ -216,12 +216,12 @@ export default function AdminGalleryPage() {
 
       {previewItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4">
-          <div className="relative max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl">
-            <button type="button" onClick={() => setPreviewItem(null)} className="absolute right-4 top-4 rounded-full bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700">Close</button>
+          <div className="relative max-w-4xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl">
+            <button type="button" onClick={() => setPreviewItem(null)} className="absolute right-4 top-4 rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-2 text-sm font-semibold text-slate-700">Close</button>
             <Image src={previewItem.imageUrl} alt={previewItem.title || "Gallery preview"} width={1200} height={800} className="h-[70vh] w-full object-contain bg-slate-900" />
             <div className="space-y-2 p-6">
-              <h3 className="text-xl font-semibold text-slate-900">{previewItem.title || "Untitled photo"}</h3>
-              <p className="text-sm text-slate-600">{previewItem.uploadedAt ? new Date(previewItem.uploadedAt).toLocaleString() : "Uploaded recently"}</p>
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">{previewItem.title || "Untitled photo"}</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{previewItem.uploadedAt ? new Date(previewItem.uploadedAt).toLocaleString() : "Uploaded recently"}</p>
             </div>
           </div>
         </div>

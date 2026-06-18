@@ -29,23 +29,23 @@ export default function AdminLoginPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl items-center px-6 py-16">
-      <div className="w-full rounded-3xl border border-slate-200 bg-white p-10 shadow-xl">
+      <div className="w-full rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-10 shadow-xl">
         <div className="space-y-3">
           <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Admin Login</p>
-          <h1 className="text-4xl font-semibold tracking-tight text-slate-900">Secure Access</h1>
-          <p className="text-sm leading-7 text-slate-600">Only the store owner can manage products, categories, gallery, and website content.</p>
+          <h1 className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Secure Access</h1>
+          <p className="text-sm leading-7 text-slate-600 dark:text-slate-400">Only the store owner can manage products, categories, gallery, and website content.</p>
         </div>
         <form onSubmit={handleSubmit} className="mt-10 space-y-6">
           <label className="block space-y-2 text-sm font-semibold text-slate-700">
             Email
-            <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" />
+            <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50" />
           </label>
           <label className="block space-y-2 text-sm font-semibold text-slate-700">
             Password
-            <input value={password} onChange={(event) => setPassword(event.target.value)} type="password" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" />
+            <input value={password} onChange={(event) => setPassword(event.target.value)} type="password" className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50" />
           </label>
           {error && <p className="text-sm text-red-600">{error}</p>}
-          <button type="submit" className="w-full rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-950">Sign In</button>
+          <button type="submit" className="w-full rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-950 dark:text-slate-50">Sign In</button>
         </form>
       </div>
     </main>

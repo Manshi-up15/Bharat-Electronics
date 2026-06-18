@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import ToastProvider from "../components/ToastProvider";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { getSettings } from "../lib/models";
+import { ThemeProvider } from "../components/theme-provider";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
@@ -32,10 +33,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <ErrorBoundary>{children}</ErrorBoundary>
-        <ToastProvider />
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-300">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ErrorBoundary>{children}</ErrorBoundary>
+          <ToastProvider />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -63,11 +63,11 @@ export default function AdminSettingsPage() {
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
-      <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-10 shadow-sm">
         <div className="space-y-3">
           <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Website Content</p>
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Update business information</h1>
-          <p className="text-sm leading-7 text-slate-600">Manage shop name, contact details, hero copy, and about section from one place.</p>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">Update business information</h1>
+          <p className="text-sm leading-7 text-slate-600 dark:text-slate-400">Manage shop name, contact details, hero copy, and about section from one place.</p>
           {message ? <p className="text-sm text-slate-700">{message}</p> : null}
         </div>
 
@@ -79,7 +79,7 @@ export default function AdminSettingsPage() {
                 value={settings.businessName}
                 onChange={handleChange("businessName")}
                 type="text"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
               />
             </label>
             <label className="space-y-2 text-sm font-semibold text-slate-700">
@@ -88,7 +88,7 @@ export default function AdminSettingsPage() {
                 value={settings.ownerName}
                 onChange={handleChange("ownerName")}
                 type="text"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
               />
             </label>
           </div>
@@ -100,7 +100,7 @@ export default function AdminSettingsPage() {
                 value={settings.phone}
                 onChange={handleChange("phone")}
                 type="tel"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
               />
             </label>
             <label className="space-y-2 text-sm font-semibold text-slate-700">
@@ -109,7 +109,7 @@ export default function AdminSettingsPage() {
                 value={settings.whatsappNumber}
                 onChange={handleChange("whatsappNumber")}
                 type="tel"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
               />
             </label>
           </div>
@@ -121,7 +121,7 @@ export default function AdminSettingsPage() {
                 value={settings.email}
                 onChange={handleChange("email")}
                 type="email"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
               />
             </label>
             <label className="space-y-2 text-sm font-semibold text-slate-700">
@@ -130,7 +130,7 @@ export default function AdminSettingsPage() {
                 value={settings.instagram}
                 onChange={handleChange("instagram")}
                 type="text"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
               />
             </label>
           </div>
@@ -141,7 +141,7 @@ export default function AdminSettingsPage() {
               value={settings.address}
               onChange={handleChange("address")}
               type="text"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
             />
           </label>
 
@@ -151,7 +151,7 @@ export default function AdminSettingsPage() {
               value={settings.googleMapsUrl}
               onChange={handleChange("googleMapsUrl")}
               type="url"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
             />
           </label>
 
@@ -161,7 +161,7 @@ export default function AdminSettingsPage() {
               value={settings.heroTitle}
               onChange={handleChange("heroTitle")}
               type="text"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
             />
           </label>
 
@@ -171,7 +171,7 @@ export default function AdminSettingsPage() {
               value={settings.heroSubtitle}
               onChange={handleChange("heroSubtitle")}
               rows={3}
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
             />
           </label>
 
@@ -181,14 +181,14 @@ export default function AdminSettingsPage() {
               value={settings.aboutContent}
               onChange={handleChange("aboutContent")}
               rows={4}
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900"
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm text-slate-900 dark:text-slate-50"
             />
           </label>
 
           <button
             type="submit"
             disabled={isSaving}
-            className="rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-950 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-950 dark:text-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSaving ? "Saving..." : "Save Settings"}
           </button>

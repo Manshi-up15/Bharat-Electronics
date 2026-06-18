@@ -76,21 +76,21 @@ export default function AdminProductsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Products</h1>
+        <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-50">Products</h1>
         <Link
           href="/admin/products/create"
-          className="rounded-full bg-amber-500 px-5 py-2 text-sm font-semibold text-slate-950 hover:bg-amber-400 transition"
+          className="rounded-full bg-amber-500 px-5 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50 hover:bg-amber-400 transition"
         >
           + Add Product
         </Link>
       </div>
 
       {items && items.length === 0 ? (
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-12 text-center">
-          <p className="text-slate-500 text-sm mb-4">No products yet. Start by adding your first product.</p>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-12 text-center">
+          <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">No products yet. Start by adding your first product.</p>
           <Link
             href="/admin/products/create"
-            className="rounded-full bg-amber-500 px-6 py-2 text-sm font-semibold text-slate-950 hover:bg-amber-400 transition"
+            className="rounded-full bg-amber-500 px-6 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50 hover:bg-amber-400 transition"
           >
             + Add First Product
           </Link>
@@ -102,12 +102,12 @@ export default function AdminProductsPage() {
               placeholder="Search products..."
               value={query}
               onChange={(e) => { setQuery(e.target.value); setPage(1); }}
-              className="rounded-xl border border-slate-200 px-3 py-2 text-sm w-64"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm w-64"
             />
             <select
               value={category}
               onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-              className="rounded-xl border border-slate-200 px-3 py-2 text-sm"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm"
             >
               <option value="">All categories</option>
               {categories.map((c) => (
@@ -116,10 +116,10 @@ export default function AdminProductsPage() {
             </select>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 overflow-hidden">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-slate-50 border-b border-slate-200">
-                <tr className="text-left text-slate-600">
+              <thead className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                <tr className="text-left text-slate-600 dark:text-slate-400">
                   <th className="px-4 py-3 font-semibold">Name</th>
                   <th className="px-4 py-3 font-semibold">Category</th>
                   <th className="px-4 py-3 font-semibold">Price (₹)</th>
@@ -130,10 +130,10 @@ export default function AdminProductsPage() {
               </thead>
               <tbody>
                 {pageItems.map((p) => (
-                  <tr key={p.id} className="border-t border-slate-100 hover:bg-slate-50">
-                    <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>
-                    <td className="px-4 py-3 text-slate-600">{p.categoryName || "—"}</td>
-                    <td className="px-4 py-3 text-slate-600">{p.price ?? 0}</td>
+                  <tr key={p.id} className="border-t border-slate-100 hover:bg-slate-50 dark:bg-slate-800/50">
+                    <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-50">{p.name}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{p.categoryName || "—"}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{p.price ?? 0}</td>
                     <td className="px-4 py-3">
                       <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${
                         p.availability === "In Stock"
@@ -164,20 +164,20 @@ export default function AdminProductsPage() {
             </table>
           </div>
 
-          <div className="flex items-center justify-between text-sm text-slate-600">
+          <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
             <div>Page {page} / {totalPages}</div>
             <div className="flex gap-2">
               <button
                 onClick={() => setPage((s) => Math.max(1, s - 1))}
                 disabled={page === 1}
-                className="rounded-lg border border-slate-200 px-3 py-1 disabled:opacity-40"
+                className="rounded-lg border border-slate-200 dark:border-slate-800 px-3 py-1 disabled:opacity-40"
               >
                 Prev
               </button>
               <button
                 onClick={() => setPage((s) => Math.min(totalPages, s + 1))}
                 disabled={page === totalPages}
-                className="rounded-lg border border-slate-200 px-3 py-1 disabled:opacity-40"
+                className="rounded-lg border border-slate-200 dark:border-slate-800 px-3 py-1 disabled:opacity-40"
               >
                 Next
               </button>

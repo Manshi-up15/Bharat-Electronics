@@ -146,7 +146,7 @@ export default function CategoryForm({ category }: { category?: Category }) {
           type="file"
           accept="image/*"
           onChange={(e) => setNewFile(e.target.files?.[0] || null)}
-          className="block text-sm text-slate-600"
+          className="block text-sm text-slate-600 dark:text-slate-400"
         />
       </div>
 

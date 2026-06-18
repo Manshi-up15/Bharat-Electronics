@@ -11,7 +11,7 @@ export default function SiteFooter({ settings }: SiteFooterProps) {
   const instagram = settings?.instagram || "@aman_saini____0001";
 
   return (
-    <footer className="border-t border-slate-200 bg-slate-950 text-slate-300">
+    <footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-950 text-slate-300">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-semibold text-white">{title}</p>

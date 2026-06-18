@@ -16,14 +16,15 @@
     "clsx": "^2.1.1",
     "jsonwebtoken": "^9.0.2",
     "lru-cache": "^10.0.0",
-    "xss": "^1.0.15",
-    "zod": "^3.23.2",
-    "react-hot-toast": "^2.4.0",
     "lucide-react": "^0.476.0",
     "mongodb": "^6.10.0",
     "next": "15.2.0",
+    "next-themes": "^0.4.6",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-hot-toast": "^2.4.0",
+    "xss": "^1.0.15",
+    "zod": "^3.23.2"
   },
   "engines": {
     "node": ">=18"

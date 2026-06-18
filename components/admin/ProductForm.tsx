@@ -232,7 +232,7 @@ export default function ProductForm({ product }: { product?: Product }) {
           multiple
           accept="image/*"
           onChange={(e) => setNewFiles(e.target.files)}
-          className="block text-sm text-slate-600"
+          className="block text-sm text-slate-600 dark:text-slate-400"
         />
       </div>
 
@@ -240,7 +240,7 @@ export default function ProductForm({ product }: { product?: Product }) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-amber-500 px-6 py-2 text-sm font-semibold text-slate-950 disabled:opacity-60"
+          className="rounded-full bg-amber-500 px-6 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50 disabled:opacity-60"
         >
           {saving ? "Saving..." : product?.id ? "Update Product" : "Create Product"}
         </button>
