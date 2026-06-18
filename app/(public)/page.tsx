@@ -3,6 +3,8 @@ import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { getSettings, getCategories, getProducts } from "../../lib/models";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const settings = await getSettings();
   const businessName = settings?.businessName || "Bharat Electronics";

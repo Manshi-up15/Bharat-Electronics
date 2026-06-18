@@ -3,6 +3,8 @@ import SiteHeader from "../../components/site-header";
 import SiteFooter from "../../components/site-footer";
 import { getSettings } from "../../lib/models";
 
+export const dynamic = "force-dynamic";
+
 export default async function PublicLayout({ children }: { children: ReactNode }) {
   const settings = await getSettings();
   const businessName = settings?.businessName || "Bharat Electronics";
