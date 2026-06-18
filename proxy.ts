@@ -18,7 +18,7 @@ function decodeJwt(token: string) {
   }
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/admin")) {
     // allow unauthenticated access to the login page
