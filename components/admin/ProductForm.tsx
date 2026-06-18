@@ -124,25 +124,25 @@ export default function ProductForm({ product }: { product?: Product }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-1">
+        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
           Product Name <span className="text-red-500">*</span>
         </label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+          className="w-full rounded border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
           placeholder="Enter product name"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-1">
+        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
           Category <span className="text-red-500">*</span>
         </label>
         <select
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+          className="w-full rounded border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
         >
           <option value="">-- Select a category --</option>
           {categories.map((c) => (
@@ -154,40 +154,40 @@ export default function ProductForm({ product }: { product?: Product }) {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-1">Description</label>
+        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
-          className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+          className="w-full rounded border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
           placeholder="Enter product description"
         />
       </div>
 
       <div className="flex gap-4 flex-wrap">
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-1">Price (₹)</label>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Price (₹)</label>
           <input
             type="number"
             min={0}
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
-            className="rounded border border-slate-300 px-3 py-2 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="rounded border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 px-3 py-2 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-amber-400"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-1">Availability</label>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Availability</label>
           <select
             value={String(available)}
             onChange={(e) => setAvailable(e.target.value === "true")}
-            className="rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="rounded border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
           >
             <option value="true">In Stock</option>
             <option value="false">Out of Stock</option>
           </select>
         </div>
         <div className="flex items-end pb-2">
-          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
             <input
               type="checkbox"
               checked={featured}
@@ -226,7 +226,7 @@ export default function ProductForm({ product }: { product?: Product }) {
       )}
 
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-1">Upload Images</label>
+        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Upload Images</label>
         <input
           type="file"
           multiple
@@ -240,14 +240,14 @@ export default function ProductForm({ product }: { product?: Product }) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-amber-500 px-6 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50 disabled:opacity-60"
+          className="rounded-full bg-amber-500 px-6 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50 disabled:opacity-60 hover:bg-amber-600 transition"
         >
           {saving ? "Saving..." : product?.id ? "Update Product" : "Create Product"}
         </button>
         <button
           type="button"
           onClick={() => router.back()}
-          className="rounded-full border border-slate-300 px-6 py-2 text-sm font-semibold text-slate-700"
+          className="rounded-full border border-slate-300 dark:border-slate-700 px-6 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
         >
           Cancel
         </button>

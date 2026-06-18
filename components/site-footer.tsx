@@ -7,7 +7,7 @@ interface SiteFooterProps {
 export default function SiteFooter({ settings }: SiteFooterProps) {
   const title = settings?.businessName || "Bharat Electronics";
   const phone = settings?.phone || "9119789307";
-  const email = settings?.email || "amanmzm251316@gmail.com";
+  const email = settings?.email || "amanmzn251316@gmail.com";
   const instagram = settings?.instagram || "@aman_saini____0001";
 
   return (

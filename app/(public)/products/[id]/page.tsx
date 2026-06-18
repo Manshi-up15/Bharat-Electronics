@@ -21,7 +21,7 @@ export default async function ProductDetailsPage({
 
   const settings = await getSettings();
   const phone = settings?.phone || "9119789307";
-  const email = settings?.email || "amanmzm251316@gmail.com";
+  const email = settings?.email || "amanmzn251316@gmail.com";
   const instagram = settings?.instagram || "@aman_saini____0001";
 
   return (
@@ -62,7 +62,7 @@ export default async function ProductDetailsPage({
             <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Contact Information</h2>
             <div className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-400">
               <p><strong>Phone:</strong> {phone}</p>
-              <p><strong>Email:</strong> {email}</p>
+              <p className="break-all"><strong>Email:</strong> {email}</p>
               <p><strong>Instagram:</strong> {instagram}</p>
             </div>
           </div>

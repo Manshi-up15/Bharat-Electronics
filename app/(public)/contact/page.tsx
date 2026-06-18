@@ -3,7 +3,7 @@ import { getSettings } from "../../../lib/models";
 export default async function ContactPage() {
   const settings = await getSettings();
   const phone = settings?.phone || "9119789307";
-  const email = settings?.email || "amanmzm251316@gmail.com";
+  const email = settings?.email || "amanmzn251316@gmail.com";
   const instagram = settings?.instagram || "@aman_saini____0001";
 
   return (
@@ -48,7 +48,7 @@ export default async function ContactPage() {
             </div>
             <div>
               <p className="font-semibold text-slate-900 dark:text-slate-50">Email</p>
-              <p>{email}</p>
+              <p className="break-all">{email}</p>
             </div>
             <div>
               <p className="font-semibold text-slate-900 dark:text-slate-50">Instagram</p>

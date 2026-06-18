@@ -8,9 +8,9 @@ export default async function HomePage() {
   const heroTitle = settings?.heroTitle || "Complete Electrical & Electronics Solutions Under One Roof";
   const heroSubtitle = settings?.heroSubtitle || "Browse products, explore categories, and contact us instantly from a fast mobile-friendly store.";
   const phone = settings?.phone || "9119789307";
-  const email = settings?.email || "amanmzm251316@gmail.com";
+  const email = settings?.email || "amanmzn251316@gmail.com";
   const instagram = settings?.instagram || "@aman_saini____0001";
-  const address = settings?.address || "Local shop in your area";
+  const address = settings?.address || "Petrol Pump ke samne , bahupura road, morna, UP";
   const contactLink = settings?.whatsappNumber ? `https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}` : `tel:${phone}`;
 
   const categories = await getCategories();
@@ -117,7 +117,7 @@ export default async function HomePage() {
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Email</p>
-              <p className="mt-3 text-lg font-semibold">{email}</p>
+              <p className="mt-3 text-lg font-semibold break-all">{email}</p>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Instagram</p>

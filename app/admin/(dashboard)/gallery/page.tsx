@@ -22,6 +22,9 @@ export default function AdminGalleryPage() {
   const [title, setTitle] = useState("");
   const [uploading, setUploading] = useState(false);
   const [previewItem, setPreviewItem] = useState<GalleryItem | null>(null);
+  const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
 
   useEffect(() => {
     fetchGallery();
@@ -123,6 +126,34 @@ export default function AdminGalleryPage() {
     }
   }
 
+  async function handleEditSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!editingItem) return;
+
+    setSavingEdit(true);
+    try {
+      const res = await fetch(`/api/gallery/${editingItem.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-csrf-token": String(getCsrf())
+        },
+        body: JSON.stringify({ title: editTitle })
+      });
+      if (!res.ok) {
+        throw new Error("Update failed");
+      }
+      const updated = await res.json();
+      setItems((prev) => (prev || []).map(item => item.id === updated.id ? updated : item));
+      setEditingItem(null);
+      toast.success("Photo updated");
+    } catch (err) {
+      toast.error("Failed to update photo");
+    } finally {
+      setSavingEdit(false);
+    }
+  }
+
   if (loading) {
     return <Loading />;
   }
@@ -189,9 +220,14 @@ export default function AdminGalleryPage() {
                       <p className="font-semibold text-slate-900 dark:text-slate-50">{item.title || "Untitled photo"}</p>
                       <p className="text-sm text-slate-500 dark:text-slate-400">{item.uploadedAt ? new Date(item.uploadedAt).toLocaleDateString() : "Uploaded recently"}</p>
                     </div>
-                    <button type="button" onClick={() => handleDelete(item)} className="rounded-full bg-red-500 px-3 py-2 text-xs font-semibold text-white">
-                      Delete
-                    </button>
+                    <div className="flex gap-2">
+                      <button type="button" onClick={() => { setEditingItem(item); setEditTitle(item.title || ""); }} className="rounded-full bg-slate-200 dark:bg-slate-700 px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+                        Edit
+                      </button>
+                      <button type="button" onClick={() => handleDelete(item)} className="rounded-full bg-red-500 px-3 py-2 text-xs font-semibold text-white hover:bg-red-600 transition">
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -217,12 +253,32 @@ export default function AdminGalleryPage() {
       {previewItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4">
           <div className="relative max-w-4xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl">
-            <button type="button" onClick={() => setPreviewItem(null)} className="absolute right-4 top-4 rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-2 text-sm font-semibold text-slate-700">Close</button>
+            <button type="button" onClick={() => setPreviewItem(null)} className="absolute right-4 top-4 rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200">Close</button>
             <Image src={previewItem.imageUrl} alt={previewItem.title || "Gallery preview"} width={1200} height={800} className="h-[70vh] w-full object-contain bg-slate-900" />
             <div className="space-y-2 p-6">
               <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">{previewItem.title || "Untitled photo"}</h3>
               <p className="text-sm text-slate-600 dark:text-slate-400">{previewItem.uploadedAt ? new Date(previewItem.uploadedAt).toLocaleString() : "Uploaded recently"}</p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {editingItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4">
+          <div className="w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl p-6">
+            <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-4">Edit Photo Title</h3>
+            <form onSubmit={handleEditSubmit}>
+              <label className="block mb-6">
+                <span className="text-sm font-medium text-slate-900 dark:text-slate-50">Photo title</span>
+                <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder="Enter a new title" className="mt-2 w-full rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-2 text-slate-900 dark:text-slate-50" />
+              </label>
+              <div className="flex items-center gap-3 justify-end">
+                <button type="button" onClick={() => setEditingItem(null)} className="rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-50 transition hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+                <button type="submit" disabled={savingEdit} className="rounded-full bg-amber-500 hover:bg-amber-600 px-4 py-2 text-sm font-semibold text-slate-950 disabled:opacity-50 transition">
+                  {savingEdit ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

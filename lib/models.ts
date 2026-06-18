@@ -192,6 +192,13 @@ export async function createGalleryItem(input: Omit<GalleryItem, "id" | "uploade
   return normalizeDocument({ ...input, _id: result.insertedId } as GalleryItem);
 }
 
+export async function updateGalleryItem(id: string, input: Partial<Omit<GalleryItem, "id" | "uploadedAt">>) {
+  const db = (await clientPromise).db();
+  const objectId = new ObjectId(id);
+  await db.collection<GalleryItem>("gallery").updateOne({ _id: objectId }, { $set: input });
+  return getGalleryItem(id);
+}
+
 export async function deleteGalleryItem(id: string) {
   const db = (await clientPromise).db();
   return db.collection<GalleryItem>("gallery").deleteOne({ _id: new ObjectId(id) });

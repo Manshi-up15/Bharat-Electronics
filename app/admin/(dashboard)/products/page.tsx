@@ -102,12 +102,12 @@ export default function AdminProductsPage() {
               placeholder="Search products..."
               value={query}
               onChange={(e) => { setQuery(e.target.value); setPage(1); }}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm w-64"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 px-3 py-2 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
             <select
               value={category}
               onChange={(e) => { setCategory(e.target.value); setPage(1); }}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
             >
               <option value="">All categories</option>
               {categories.map((c) => (
