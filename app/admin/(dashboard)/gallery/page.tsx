@@ -147,7 +147,7 @@ export default function AdminGalleryPage() {
       setItems((prev) => (prev || []).map(item => item.id === updated.id ? updated : item));
       setEditingItem(null);
       toast.success("Photo updated");
-    } catch {
+    } catch (err) {
       toast.error("Failed to update photo");
     } finally {
       setSavingEdit(false);
