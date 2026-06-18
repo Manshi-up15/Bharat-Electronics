@@ -2,6 +2,7 @@ import { getSettings, getProductById } from "../../../../lib/models";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ObjectId } from "mongodb";
+import { MapPin } from "lucide-react";
 
 export default async function ProductDetailsPage({
   params
@@ -23,6 +24,8 @@ export default async function ProductDetailsPage({
   const phone = settings?.phone || "9119789307";
   const email = settings?.email || "amanmzn251316@gmail.com";
   const instagram = settings?.instagram || "@aman_saini____0001";
+  const address = settings?.address || "Petrol Pump ke samne , bahupura road, morna, UP";
+  const googleMapsUrl = settings?.googleMapsUrl || "https://maps.app.goo.gl/fadZjypYkkhuhC9G6";
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
@@ -64,6 +67,22 @@ export default async function ProductDetailsPage({
               <p><strong>Phone:</strong> {phone}</p>
               <p className="break-all"><strong>Email:</strong> {email}</p>
               <p><strong>Instagram:</strong> {instagram}</p>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Visit Store for Offline Purchase</h2>
+            <div className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-400">
+              <p className="leading-6">{address}</p>
+              <a 
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-4 py-3 text-sm font-semibold text-slate-900 dark:text-slate-50 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <MapPin className="h-4 w-4 text-amber-500" />
+                Get Directions
+              </a>
             </div>
           </div>
         </aside>

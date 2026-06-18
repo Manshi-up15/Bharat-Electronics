@@ -49,7 +49,7 @@ export const settingsSchema = z.object({
   heroSubtitle: z.string().optional(),
   aboutContent: z.string().optional(),
   address: z.string().optional(),
-  googleMapsUrl: z.string().url().optional()
+  googleMapsUrl: z.string().url().or(z.literal("")).optional()
 });
 
 const validationSchemas = { loginSchema, productSchema, categorySchema, galleryItemSchema, settingsSchema };

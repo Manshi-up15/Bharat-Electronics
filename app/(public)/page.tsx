@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 import { getSettings, getCategories, getProducts } from "../../lib/models";
 
 export default async function HomePage() {
@@ -11,6 +12,7 @@ export default async function HomePage() {
   const email = settings?.email || "amanmzn251316@gmail.com";
   const instagram = settings?.instagram || "@aman_saini____0001";
   const address = settings?.address || "Petrol Pump ke samne , bahupura road, morna, UP";
+  const googleMapsUrl = settings?.googleMapsUrl || "https://maps.app.goo.gl/fadZjypYkkhuhC9G6";
   const contactLink = settings?.whatsappNumber ? `https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}` : `tel:${phone}`;
 
   const categories = await getCategories();
@@ -126,6 +128,15 @@ export default async function HomePage() {
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Location</p>
               <p className="mt-3 text-lg font-semibold">{address}</p>
+              <a 
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-amber-400 transition hover:text-amber-300"
+              >
+                <MapPin className="h-4 w-4" />
+                Open in Google Maps
+              </a>
             </div>
           </div>
         </div>
