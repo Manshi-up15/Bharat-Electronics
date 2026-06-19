@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { getSettings, getCategories, getProducts } from "../../lib/models";
+import WhatsAppButton from "../../components/whatsapp-button";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,7 @@ export default async function HomePage() {
   const address = settings?.address || "Petrol Pump ke samne , bahupura road, morna, UP";
   const googleMapsUrl = settings?.googleMapsUrl || "https://maps.app.goo.gl/fadZjypYkkhuhC9G6";
   const contactLink = settings?.whatsappNumber ? `https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}` : `tel:${phone}`;
+  const whatsappNumber = settings?.whatsappNumber || null;
 
   const categories = await getCategories();
   const allProducts = await getProducts();
@@ -99,7 +101,10 @@ export default async function HomePage() {
                       {Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(product.price)}
                     </p>
                   )}
-                  <Link href={`/products/${product.id}`} className="inline-flex items-center text-sm font-semibold text-amber-600 hover:text-amber-500">View Details</Link>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Link href={`/products/${product.id}`} className="inline-flex items-center text-sm font-semibold text-amber-600 hover:text-amber-500">View Details</Link>
+                    <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} compact />
+                  </div>
                 </div>
               </article>
             ))}

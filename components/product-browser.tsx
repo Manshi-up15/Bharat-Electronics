@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Product } from "../lib/types";
 import { getSettings } from "../lib/api";
 import Link from "next/link";
+import WhatsAppButton from "./whatsapp-button";
 
 interface ProductBrowserProps {
   products: Product[];
@@ -14,11 +15,15 @@ export default function ProductBrowser({ products }: ProductBrowserProps) {
   const [category, setCategory] = useState("All");
   const [availability, setAvailability] = useState("All");
   const [phone, setPhone] = useState("9119789307");
+  const [whatsappNumber, setWhatsappNumber] = useState<string | null>(null);
 
   useEffect(() => {
     getSettings().then((settings) => {
       if (settings?.phone) {
         setPhone(settings.phone);
+      }
+      if (settings?.whatsappNumber) {
+        setWhatsappNumber(settings.whatsappNumber);
       }
     });
   }, []);
@@ -80,6 +85,7 @@ export default function ProductBrowser({ products }: ProductBrowserProps) {
               <div className="flex flex-wrap gap-3">
                 <Link href={`/products/${id}`} className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50">View Details</Link>
                 <a href={`tel:${phone}`} className="rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-50">Contact for Price</a>
+                <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} compact />
               </div>
             </div>
           </article>

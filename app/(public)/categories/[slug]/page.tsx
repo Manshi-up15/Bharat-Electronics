@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getCategoryBySlug, getProducts } from "../../../../lib/models";
+import { getCategoryBySlug, getProducts, getSettings } from "../../../../lib/models";
+import WhatsAppButton from "../../../../components/whatsapp-button";
 
 export default async function CategoryPage({
   params
@@ -17,6 +18,9 @@ export default async function CategoryPage({
 
   const allProducts = await getProducts();
   const products = allProducts.filter((p) => String(p.categoryId) === String(category.id));
+
+  const settings = await getSettings();
+  const whatsappNumber = settings?.whatsappNumber || null;
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
@@ -50,6 +54,9 @@ export default async function CategoryPage({
                 )}
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Availability: {product.availability}</p>
                 <Link href={`/products/${product.id}`} className="mt-5 inline-flex rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50 hover:bg-amber-400 transition">View Details</Link>
+                <div className="mt-3">
+                  <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} compact />
+                </div>
               </div>
             </article>
           ))}

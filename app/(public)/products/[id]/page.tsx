@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ObjectId } from "mongodb";
 import { MapPin } from "lucide-react";
+import WhatsAppButton from "../../../../components/whatsapp-button";
 
 export default async function ProductDetailsPage({
   params
@@ -26,6 +27,7 @@ export default async function ProductDetailsPage({
   const instagram = settings?.instagram || "@aman_saini____0001";
   const address = settings?.address || "Petrol Pump ke samne , bahupura road, morna, UP";
   const googleMapsUrl = settings?.googleMapsUrl || "https://maps.app.goo.gl/fadZjypYkkhuhC9G6";
+  const whatsappNumber = settings?.whatsappNumber || null;
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
@@ -56,6 +58,7 @@ export default async function ProductDetailsPage({
             <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
               <span className="rounded-full bg-emerald-100 px-3 py-2 text-emerald-800">{product.availability}</span>
               <a href={`tel:${phone}`} className="rounded-full bg-slate-900 px-3 py-2 text-white">Call for details</a>
+              <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} compact />
             </div>
           </div>
         </div>
@@ -67,6 +70,9 @@ export default async function ProductDetailsPage({
               <p><strong>Phone:</strong> {phone}</p>
               <p className="break-all"><strong>Email:</strong> {email}</p>
               <p><strong>Instagram:</strong> {instagram}</p>
+            </div>
+            <div className="mt-5">
+              <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} />
             </div>
           </div>
 

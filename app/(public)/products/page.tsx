@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getSettings, getProducts } from "../../../lib/models";
+import WhatsAppButton from "../../../components/whatsapp-button";
 
 export default async function ProductsPage() {
   const settings = await getSettings();
   const phone = settings?.phone || "9119789307";
+  const whatsappNumber = settings?.whatsappNumber || null;
   const products = await getProducts();
 
   return (
@@ -43,6 +45,7 @@ export default async function ProductsPage() {
               <div className="flex flex-wrap gap-3">
                 <Link href={`/products/${product.id}`} className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 dark:text-slate-50 transition hover:bg-amber-400">View Details</Link>
                 <a href={`tel:${phone}`} className="rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-50 transition hover:bg-slate-50 dark:bg-slate-800/50">Contact for Price</a>
+                <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} compact />
               </div>
             </div>
           </article>
