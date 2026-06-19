@@ -4,6 +4,7 @@ import ToastProvider from "../components/ToastProvider";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { getSettings } from "../lib/models";
 import { ThemeProvider } from "../components/theme-provider";
+import Script from "next/script";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
@@ -39,6 +40,22 @@ export default async function RootLayout({
           <ErrorBoundary>{children}</ErrorBoundary>
           <ToastProvider />
         </ThemeProvider>
+        <div id="google_translate_element" style={{ display: 'none' }}></div>
+        <Script
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          strategy="afterInteractive"
+        />
+        <Script id="google-translate-init" strategy="afterInteractive">
+          {`
+            function googleTranslateElementInit() {
+              new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'hi,en',
+                autoDisplay: false
+              }, 'google_translate_element');
+            }
+          `}
+        </Script>
       </body>
     </html>
   );

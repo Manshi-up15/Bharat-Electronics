@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Settings } from "../lib/types";
 import { ThemeToggle } from "./theme-toggle";
+import { LanguageTranslate } from "./language-translate";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -30,6 +31,7 @@ export default function SiteHeader({ settings }: SiteHeaderProps) {
           ))}
         </nav>
         <div className="flex items-center gap-4">
+          <LanguageTranslate />
           <ThemeToggle />
           <Link href="/admin/login" className="rounded-full bg-amber-500 hover:bg-amber-600 transition-colors px-4 py-2 text-sm font-semibold text-slate-950">Admin</Link>
         </div>
