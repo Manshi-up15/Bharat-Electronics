@@ -1,5 +1,6 @@
 import { getSettings } from "../../../lib/models";
 import { MapPin } from "lucide-react";
+import CallButton from "../../../components/call-button";
 
 export default async function ContactPage() {
   const settings = await getSettings();
@@ -57,6 +58,9 @@ export default async function ContactPage() {
                 <p className="font-semibold text-slate-900 dark:text-slate-50">Instagram</p>
                 <p>{instagram}</p>
               </div>
+            </div>
+            <div className="mt-2">
+              <CallButton phone={settings?.phone} />
             </div>
           </div>
 

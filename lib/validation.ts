@@ -12,6 +12,7 @@ export const productSchema = z.object({
   categoryId: z.string().min(1),
   availability: z.string().optional().default("In Stock"),
   featured: z.boolean().optional().default(false),
+  isNewArrival: z.boolean().optional().default(false),
   images: z
     .array(
       z.object({

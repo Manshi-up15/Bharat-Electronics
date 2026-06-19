@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ObjectId } from "mongodb";
 import { MapPin } from "lucide-react";
 import WhatsAppButton from "../../../../components/whatsapp-button";
+import CallButton from "../../../../components/call-button";
 
 export default async function ProductDetailsPage({
   params
@@ -71,7 +72,8 @@ export default async function ProductDetailsPage({
               <p className="break-all"><strong>Email:</strong> {email}</p>
               <p><strong>Instagram:</strong> {instagram}</p>
             </div>
-            <div className="mt-5">
+            <div className="mt-5 space-y-3">
+              <CallButton phone={settings?.phone} />
               <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} />
             </div>
           </div>

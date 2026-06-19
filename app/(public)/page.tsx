@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { getSettings, getCategories, getProducts } from "../../lib/models";
 import WhatsAppButton from "../../components/whatsapp-button";
+import CallButton from "../../components/call-button";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,7 @@ export default async function HomePage() {
   const categories = await getCategories();
   const allProducts = await getProducts();
   const featuredProducts = allProducts.filter(p => p.featured).slice(0, 3);
+  const newArrivals = allProducts.filter(p => p.isNewArrival).slice(0, 6);
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
@@ -112,17 +114,59 @@ export default async function HomePage() {
         </section>
       )}
 
+      {newArrivals.length > 0 && (
+        <section className="mt-16">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-emerald-500">Just In</p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">New Stock Arrived</h2>
+            </div>
+            <Link href="/products" className="text-sm font-semibold text-emerald-600 hover:text-emerald-500">Browse all products</Link>
+          </div>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {newArrivals.map((product) => (
+              <article key={product.id} className="group relative overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition hover:shadow-lg">
+                <span className="absolute left-4 top-4 z-10 rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-sm">New</span>
+                {product.images && product.images[0] ? (
+                  <div className="relative h-64 w-full overflow-hidden">
+                    <Image src={product.images[0].url} alt={product.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition group-hover:scale-105" />
+                  </div>
+                ) : (
+                  <div className="h-64 bg-slate-100 dark:bg-slate-800" />
+                )}
+                <div className="space-y-3 p-6">
+                  <p className="text-sm uppercase tracking-[0.3em] text-amber-500">{product.categoryName || "Product"}</p>
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50">{product.name}</h3>
+                  {product.price !== undefined && product.price > 0 && (
+                    <p className="text-lg font-bold text-slate-900 dark:text-slate-50">
+                      {Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(product.price)}
+                    </p>
+                  )}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Link href={`/products/${product.id}`} className="inline-flex items-center text-sm font-semibold text-amber-600 hover:text-amber-500">View Details</Link>
+                    <WhatsAppButton whatsappNumber={whatsappNumber} productName={product.name} compact />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section id="contact" className="mt-20 rounded-[2rem] bg-slate-950 px-8 py-12 text-white sm:px-14">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-400">Contact Preview</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight">Get in touch with {businessName}</h2>
             <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300">Call, email, or message us on Instagram. Visit our store for fast local service and reliable products.</p>
+            <div className="mt-6 max-w-xs">
+              <CallButton phone={settings?.phone} variant="light" />
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Phone</p>
-              <p className="mt-3 text-lg font-semibold">{phone}</p>
+              <a href={`tel:${phone}`} className="mt-3 block text-lg font-semibold transition hover:text-amber-300">{phone}</a>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <p className="text-sm uppercase tracking-[0.3em] text-amber-300">Email</p>

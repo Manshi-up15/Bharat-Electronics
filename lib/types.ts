@@ -33,6 +33,7 @@ export interface Product {
   images: ImageResource[];
   availability: string;
   featured?: boolean;
+  isNewArrival?: boolean;
   price?: number;
   available?: boolean;
   createdAt?: Date;

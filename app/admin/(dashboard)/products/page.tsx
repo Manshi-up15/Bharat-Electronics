@@ -125,6 +125,7 @@ export default function AdminProductsPage() {
                   <th className="px-4 py-3 font-semibold">Price (₹)</th>
                   <th className="px-4 py-3 font-semibold">Availability</th>
                   <th className="px-4 py-3 font-semibold">Featured</th>
+                  <th className="px-4 py-3 font-semibold">New</th>
                   <th className="px-4 py-3"></th>
                 </tr>
               </thead>
@@ -144,6 +145,7 @@ export default function AdminProductsPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-amber-500">{p.featured ? "★" : ""}</td>
+                    <td className="px-4 py-3">{p.isNewArrival ? <span className="inline-block rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">New</span> : ""}</td>
                     <td className="px-4 py-3 text-right flex gap-3 justify-end">
                       <Link
                         href={`/admin/products/${p.id}/edit`}

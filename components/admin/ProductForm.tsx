@@ -18,6 +18,7 @@ export default function ProductForm({ product }: { product?: Product }) {
       : true
   );
   const [featured, setFeatured] = useState(product?.featured ?? false);
+  const [isNewArrival, setIsNewArrival] = useState(product?.isNewArrival ?? false);
   const [images, setImages] = useState<ImageResource[]>(product?.images || []);
   const [newFiles, setNewFiles] = useState<FileList | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -76,6 +77,7 @@ export default function ProductForm({ product }: { product?: Product }) {
         categoryId,
         availability: available ? "In Stock" : "Out of Stock",
         featured,
+        isNewArrival,
         images: imageObjs
       };
 
@@ -195,6 +197,17 @@ export default function ProductForm({ product }: { product?: Product }) {
               className="w-4 h-4 accent-amber-500"
             />
             Featured Product
+          </label>
+        </div>
+        <div className="flex items-end pb-2">
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isNewArrival}
+              onChange={(e) => setIsNewArrival(e.target.checked)}
+              className="w-4 h-4 accent-emerald-500"
+            />
+            New Arrival
           </label>
         </div>
       </div>
