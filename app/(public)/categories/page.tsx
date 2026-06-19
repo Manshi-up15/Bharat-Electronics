@@ -18,7 +18,7 @@ export default async function CategoriesPage() {
           <Link key={category.slug} href={`/categories/${category.slug}`} className="group overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 transition hover:-translate-y-1 hover:shadow-lg">
             {category.image ? (
               <div className="relative h-48 w-full overflow-hidden rounded-3xl">
-                <Image src={category.image.url} alt={category.name} fill className="object-cover transition group-hover:scale-105" />
+                <Image src={category.image.url} alt={category.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition group-hover:scale-105" />
               </div>
             ) : (
               <div className="h-48 rounded-3xl bg-slate-100 dark:bg-slate-800"></div>

@@ -3,6 +3,13 @@ import bcrypt from "bcryptjs";
 import { createUser, findUserByEmail } from "../../../lib/models";
 
 export async function POST(request: Request) {
+  
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { error: "Admin creation disabled in production." },
+      { status: 403 }
+    );
+  }  
   const body = await request.json();
   const { email, password, name, setupSecret } = body;
 

@@ -21,7 +21,7 @@ export default async function ProductsPage() {
           <article key={product.id} className="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition hover:shadow-lg">
             {product.images && product.images.length > 0 ? (
               <div className="relative h-60 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-                <Image src={product.images[0].url} alt={product.name} fill className="object-cover" />
+                <Image src={product.images[0].url} alt={product.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" />
               </div>
             ) : (
               <div className="h-60 bg-slate-100 dark:bg-slate-800" />

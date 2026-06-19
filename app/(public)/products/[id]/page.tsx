@@ -36,7 +36,7 @@ export default async function ProductDetailsPage({
               {product.images && product.images.length > 0 ? (
                 product.images.map((img, index) => (
                   <div key={index} className="relative h-80 rounded-3xl bg-slate-200 overflow-hidden">
-                    <Image src={img.url} alt={product.name} fill className="object-cover" />
+                    <Image src={img.url} alt={product.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                   </div>
                 ))
               ) : (
